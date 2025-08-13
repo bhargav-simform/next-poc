@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import ThemeProvider from '../styles/ThemeProvider';
+import AntdRegistry from './components/AntdRegistry';
+import ErrorBoundary from './context/ErrorBoundary';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -24,7 +27,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <ErrorBoundary>
+          <ThemeProvider>
+            <AntdRegistry>
+              {children}
+            </AntdRegistry>
+          </ThemeProvider>
+        </ErrorBoundary>
+      </body>
     </html>
   );
 }
