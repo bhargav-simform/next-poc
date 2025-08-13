@@ -57,7 +57,7 @@ const getSeverityColor = (severity: Severity): string => {
   }
 };
 
-const IssueTable: React.FC<IssueTableProps> = ({ data, loading, onDelete, pagination }) => {
+function IssueTable({ data, loading, onDelete, pagination }: IssueTableProps) {
   const getAssigneeName = (id: string) => {
     const user = mockUsers.find((u) => u.id === id);
     return user ? user.name : 'Unassigned';
@@ -103,7 +103,7 @@ const IssueTable: React.FC<IssueTableProps> = ({ data, loading, onDelete, pagina
     {
       title: 'Actions',
       key: 'actions',
-      render: (_: any, record: Issue) => (
+      render: (_, record: Issue) => (
         <Space>
           <Link href={`/issues/${record.id}`} passHref>
             <Button icon={<EyeOutlined />} size='small' />
@@ -135,6 +135,6 @@ const IssueTable: React.FC<IssueTableProps> = ({ data, loading, onDelete, pagina
       />
     </TableContainer>
   );
-};
+}
 
 export default IssueTable;

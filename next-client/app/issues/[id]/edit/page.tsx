@@ -48,7 +48,6 @@ export default function EditIssuePage({ params }: Props) {
       router.push('/issues');
     } catch (error) {
       message.error('Failed to update issue');
-      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -62,16 +61,15 @@ export default function EditIssuePage({ params }: Props) {
     return null;
   }
 
+  if (!params.id) return null;
+
   return (
-    <>
-     {params.id && (
-       <IssueDrawer
-         initialValues={issue}
-         onSubmit={handleSubmit}
-         onClose={() => router.push('/issues')}
-         isModalVisible
-       />
-     )}
-   </>
+    <IssueDrawer
+      initialValues={issue}
+      onSubmit={handleSubmit}
+      onClose={() => router.push('/issues')}
+      isModalVisible
+      isLoading={isSubmitting}
+    />
   );
 }

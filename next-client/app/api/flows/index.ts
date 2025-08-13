@@ -14,6 +14,8 @@ export async function POST(req: Request) {
   return NextResponse.json({ ok: true, data });
 }
 
-export async function GET(_: Request) {
-  return NextResponse.json({ ok: true });
+export async function GET() {
+  const { data, error } = await supabase.from('flows').select('*');
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ ok: true, data });
 }

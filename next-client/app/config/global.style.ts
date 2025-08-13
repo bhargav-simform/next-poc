@@ -22,7 +22,6 @@ import {
   widthUtilities,
   flexDirectionUtilities,
 } from './utilityClasses';
-import { icons } from './icons';
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -176,7 +175,6 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
-${icons}
 ${colorUtilities}
 ${spacingUtilities}
 ${responsiveSpacing}

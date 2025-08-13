@@ -1,6 +1,6 @@
 import { Drawer } from 'antd';
-import IssueForm from '../forms/IssueForm';
 import { Issue, IssueFormData } from '@/app/types/issue';
+import IssueForm from '../forms/IssueForm';
 
 interface IssueDrawerProps {
   initialValues?: Issue;
@@ -10,21 +10,29 @@ interface IssueDrawerProps {
   isLoading?: boolean;
 }
 
-const IssueDrawer = ({ isModalVisible, onClose, initialValues, onSubmit, isLoading }: IssueDrawerProps) => (
-  <Drawer
-    title={initialValues ? 'Edit Issue' : 'Create Issue'}
-    open={isModalVisible}
-    onClose={onClose}
-    width={600}
-    destroyOnHidden={false}
-   >
-    <IssueForm
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      onCancel={onClose}
-      isLoading={isLoading}
-    />
-  </Drawer>
-);
+function IssueDrawer({
+  isModalVisible,
+  onClose,
+  initialValues,
+  onSubmit,
+  isLoading,
+}: IssueDrawerProps) {
+  return (
+    <Drawer
+      title={initialValues ? 'Edit Issue' : 'Create Issue'}
+      open={isModalVisible}
+      onClose={onClose}
+      width={600}
+      destroyOnHidden={false}
+    >
+      <IssueForm
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        onCancel={onClose}
+        isLoading={isLoading}
+      />
+    </Drawer>
+  );
+}
 
 export default IssueDrawer;

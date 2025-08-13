@@ -36,7 +36,7 @@ interface FilterDrawerProps {
   currentFilters?: FilterValues;
 }
 
-const FilterDrawer: React.FC<FilterDrawerProps> = ({ open, onClose, onFilter, currentFilters }) => {
+function FilterDrawer({ open, onClose, onFilter, currentFilters }: FilterDrawerProps) {
   const [form] = Form.useForm();
 
   const handleFilter = (values: any) => {
@@ -122,6 +122,6 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ open, onClose, onFilter, cu
       </FilterForm>
     </Drawer>
   );
-};
+}
 
 export default FilterDrawer;

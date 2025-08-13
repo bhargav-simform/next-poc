@@ -18,13 +18,13 @@ export const mockUsers: User[] = [
 export interface Issue {
   id: string;
   title: string;
-  description: string; // rich text HTML
+  description: string;
   assignee: string;
-  dueDate: string; // ISO string
+  dueDate: string;
   severity: Severity;
   browser: Browser | string;
   reproducible: boolean;
-  estimation: number; // hours
+  estimation: number;
   status: Status;
   createdDate: string;
 }

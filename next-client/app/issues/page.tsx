@@ -6,11 +6,10 @@ import { PlusOutlined, DeleteOutlined, ExportOutlined } from '@ant-design/icons'
 import { v4 as uuidv4 } from 'uuid';
 import { cloneDeep } from 'lodash';
 import { Container, Header, Title, ActionContainer } from '../components/issues/styles';
-import { Issue, Status, Severity } from '../types/issue';
+import { Issue, Status, Severity, IssueFormData } from '../types/issue';
 import { localStorageService } from '../services/localStorageService';
 import FilterBar from '../components/issues/FilterBar';
 import ConfirmationModal from '../components/issues/ConfirmationModal';
-import IssueForm from '../components/forms/IssueForm';
 import { Button } from '../components/Button';
 import IssueDrawer from '../components/drawers/IssueDrawer';
 
@@ -24,20 +23,12 @@ export default function IssuesPage() {
   const [statusFilters, setStatusFilters] = useState<Status[]>([]);
   const [severityFilters, setSeverityFilters] = useState<Severity[]>([]);
 
-  useEffect(() => {
-    loadIssues();
-  }, []);
-
-  useEffect(() => {
-    filterIssues();
-  }, [issues, searchText, statusFilters, severityFilters]);
-
-  const loadIssues = () => {
+  function loadIssues() {
     const loadedIssues = localStorageService.getIssues();
     setIssues(loadedIssues);
-  };
+  }
 
-  const filterIssues = () => {
+  function filterIssues() {
     let filtered = cloneDeep(issues);
 
     if (searchText) {
@@ -57,9 +48,17 @@ export default function IssuesPage() {
     }
 
     setFilteredIssues(filtered);
-  };
+  }
 
-  const handleCreateIssue = (formData: any) => {
+  useEffect(() => {
+    loadIssues();
+  }, []);
+
+  useEffect(() => {
+    filterIssues();
+  }, [issues, searchText, statusFilters, severityFilters]);
+
+  const handleCreateIssue = (formData: IssueFormData) => {
     const clonedFormData = cloneDeep(formData);
     const newIssue: Issue = {
       ...clonedFormData,
@@ -72,7 +71,7 @@ export default function IssuesPage() {
     message.success('Issue created successfully');
   };
 
-  const handleUpdateIssue = (formData: any) => {
+  const handleUpdateIssue = (formData: IssueFormData) => {
     if (editingIssue) {
       const updatedIssue: Issue = {
         ...cloneDeep(formData), // deep clone
@@ -151,21 +150,34 @@ export default function IssuesPage() {
     {
       title: 'Status',
       dataIndex: 'status',
-      render: (status: Status) => (
-        <Tag color={status === 'Open' ? 'blue' : status === 'In Progress' ? 'orange' : 'green'}>
-          {status}
-        </Tag>
-      ),
+      render: (status: Status) => {
+        let statusColor = 'blue';
+
+        if (status === 'Open') {
+          statusColor = 'green';
+        }
+
+        if (status === 'In Progress') {
+          statusColor = 'orange';
+        }
+
+        return <Tag color={statusColor}>{status}</Tag>;
+      },
       sorter: (a: Issue, b: Issue) => a.status.localeCompare(b.status),
     },
     {
       title: 'Severity',
       dataIndex: 'severity',
-      render: (severity: Severity) => (
-        <Tag color={severity === 'High' ? 'red' : severity === 'Medium' ? 'orange' : 'green'}>
-          {severity}
-        </Tag>
-      ),
+      render: (severity: Severity) => {
+        let severityColor = 'green';
+        if (severity === 'High') {
+          severityColor = 'red';
+        } else if (severity === 'Medium') {
+          severityColor = 'orange';
+        }
+
+        return <Tag color={severityColor}>{severity}</Tag>;
+      },
       sorter: (a: Issue, b: Issue) => a.severity.localeCompare(b.severity),
     },
     {
@@ -183,7 +195,7 @@ export default function IssuesPage() {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_: any, record: Issue) => (
+      render: (text: string, record: Issue) => (
         <ActionContainer>
           <Button
             type='link'
