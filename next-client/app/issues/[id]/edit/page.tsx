@@ -5,7 +5,7 @@ import { message } from 'antd';
 import { useRouter } from 'next/navigation';
 import { Issue, IssueFormData } from '@/app/types/issue';
 import { localStorageService } from '@/app/services/localStorageService';
-import IssueForm from '@/app/components/forms/IssueForm';
+import IssueDrawer from '@/app/components/drawers/IssueDrawer';
 
 interface Props {
   params: {
@@ -63,13 +63,15 @@ export default function EditIssuePage({ params }: Props) {
   }
 
   return (
-    <IssueForm
-      title="Edit Issue"
-      initialValues={issue}
-      onSubmit={handleSubmit}
-      onCancel={() => router.push('/issues')}
-      isModalVisible={true}
-      isLoading={isSubmitting}
-    />
+    <>
+     {params.id && (
+       <IssueDrawer
+         initialValues={issue}
+         onSubmit={handleSubmit}
+         onClose={() => router.push('/issues')}
+         isModalVisible
+       />
+     )}
+   </>
   );
 }

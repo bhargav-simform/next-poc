@@ -1,11 +1,12 @@
 'use client';
 
 import React from 'react';
-import { Table, Tag, Button, Space } from 'antd';
+import { Table, Tag, Space } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Issue, Status, Severity, mockUsers } from '../../types/issue';
+import { Button } from '../Button';
 
 const TableContainer = styled.div`
   .ant-table-wrapper {
@@ -56,14 +57,9 @@ const getSeverityColor = (severity: Severity): string => {
   }
 };
 
-const IssueTable: React.FC<IssueTableProps> = ({
-  data,
-  loading,
-  onDelete,
-  pagination,
-}) => {
+const IssueTable: React.FC<IssueTableProps> = ({ data, loading, onDelete, pagination }) => {
   const getAssigneeName = (id: string) => {
-    const user = mockUsers.find(u => u.id === id);
+    const user = mockUsers.find((u) => u.id === id);
     return user ? user.name : 'Unassigned';
   };
 
@@ -78,11 +74,7 @@ const IssueTable: React.FC<IssueTableProps> = ({
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
-      render: (text: string, record: Issue) => (
-        <Link href={`/issues/${record.id}`}>
-          {text}
-        </Link>
-      ),
+      render: (text: string, record: Issue) => <Link href={`/issues/${record.id}`}>{text}</Link>,
     },
     {
       title: 'Assignee',
@@ -100,17 +92,13 @@ const IssueTable: React.FC<IssueTableProps> = ({
       title: 'Severity',
       dataIndex: 'severity',
       key: 'severity',
-      render: (severity: Severity) => (
-        <Tag color={getSeverityColor(severity)}>{severity}</Tag>
-      ),
+      render: (severity: Severity) => <Tag color={getSeverityColor(severity)}>{severity}</Tag>,
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (status: Status) => (
-        <Tag color={getStatusColor(status)}>{status}</Tag>
-      ),
+      render: (status: Status) => <Tag color={getStatusColor(status)}>{status}</Tag>,
     },
     {
       title: 'Actions',
@@ -118,15 +106,15 @@ const IssueTable: React.FC<IssueTableProps> = ({
       render: (_: any, record: Issue) => (
         <Space>
           <Link href={`/issues/${record.id}`} passHref>
-            <Button icon={<EyeOutlined />} size="small" />
+            <Button icon={<EyeOutlined />} size='small' />
           </Link>
           <Link href={`/issues/${record.id}/edit`} passHref>
-            <Button icon={<EditOutlined />} size="small" />
+            <Button icon={<EditOutlined />} size='small' />
           </Link>
           {onDelete && (
             <Button
               icon={<DeleteOutlined />}
-              size="small"
+              size='small'
               danger
               onClick={() => onDelete(record.id)}
             />
@@ -141,7 +129,7 @@ const IssueTable: React.FC<IssueTableProps> = ({
       <Table
         columns={columns}
         dataSource={data}
-        rowKey="id"
+        rowKey='id'
         loading={loading}
         pagination={pagination}
       />

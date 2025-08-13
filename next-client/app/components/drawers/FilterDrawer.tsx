@@ -1,7 +1,9 @@
 import React from 'react';
-import { Drawer, Form, Select, DatePicker, Switch, Button } from 'antd';
+import { Drawer, Form, Select, DatePicker, Switch } from 'antd';
 import styled from 'styled-components';
+import { cloneDeep } from 'lodash';
 import { Status, Severity, mockUsers } from '../../types/issue';
+import { Button } from '../Button';
 
 const { RangePicker } = DatePicker;
 
@@ -34,19 +36,15 @@ interface FilterDrawerProps {
   currentFilters?: FilterValues;
 }
 
-const FilterDrawer: React.FC<FilterDrawerProps> = ({
-  open,
-  onClose,
-  onFilter,
-  currentFilters,
-}) => {
+const FilterDrawer: React.FC<FilterDrawerProps> = ({ open, onClose, onFilter, currentFilters }) => {
   const [form] = Form.useForm();
 
   const handleFilter = (values: any) => {
+    const clonedValues = cloneDeep(values);
     const filters: FilterValues = {
-      ...values,
-      dateRange: values.dateRange
-        ? [values.dateRange[0].toISOString(), values.dateRange[1].toISOString()]
+      ...clonedValues,
+      dateRange: clonedValues.dateRange
+        ? [clonedValues.dateRange[0].toISOString(), clonedValues.dateRange[1].toISOString()]
         : undefined,
     };
     onFilter(filters);
@@ -60,25 +58,15 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({
   };
 
   return (
-    <Drawer
-      title="Filter Issues"
-      placement="right"
-      width={400}
-      onClose={onClose}
-      open={open}
-    >
+    <Drawer title='Filter Issues' placement='right' width={400} onClose={onClose} open={open}>
       <FilterForm
         form={form}
-        layout="vertical"
+        layout='vertical'
         initialValues={currentFilters}
         onFinish={handleFilter}
       >
-        <Form.Item name="assignees" label="Assignee">
-          <Select
-            mode="multiple"
-            placeholder="Filter by assignee"
-            allowClear
-          >
+        <Form.Item name='assignees' label='Assignee'>
+          <Select mode='multiple' placeholder='Filter by assignee' allowClear>
             {mockUsers.map((user) => (
               <Select.Option key={user.id} value={user.id}>
                 {user.name}
@@ -87,12 +75,8 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({
           </Select>
         </Form.Item>
 
-        <Form.Item name="severity" label="Severity">
-          <Select
-            mode="multiple"
-            placeholder="Filter by severity"
-            allowClear
-          >
+        <Form.Item name='severity' label='Severity'>
+          <Select mode='multiple' placeholder='Filter by severity' allowClear>
             {['Low', 'Medium', 'High'].map((severity) => (
               <Select.Option key={severity} value={severity}>
                 {severity}
@@ -101,12 +85,8 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({
           </Select>
         </Form.Item>
 
-        <Form.Item name="browser" label="Browser">
-          <Select
-            mode="multiple"
-            placeholder="Filter by browser"
-            allowClear
-          >
+        <Form.Item name='browser' label='Browser'>
+          <Select mode='multiple' placeholder='Filter by browser' allowClear>
             {['Chrome', 'Firefox', 'Safari', 'Edge', 'Other'].map((browser) => (
               <Select.Option key={browser} value={browser}>
                 {browser}
@@ -115,16 +95,12 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({
           </Select>
         </Form.Item>
 
-        <Form.Item name="reproducible" label="Reproducible" valuePropName="checked">
+        <Form.Item name='reproducible' label='Reproducible' valuePropName='checked'>
           <Switch />
         </Form.Item>
 
-        <Form.Item name="status" label="Status">
-          <Select
-            mode="multiple"
-            placeholder="Filter by status"
-            allowClear
-          >
+        <Form.Item name='status' label='Status'>
+          <Select mode='multiple' placeholder='Filter by status' allowClear>
             {['Open', 'In Progress', 'Resolved', 'Closed'].map((status) => (
               <Select.Option key={status} value={status}>
                 {status}
@@ -133,13 +109,13 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({
           </Select>
         </Form.Item>
 
-        <Form.Item name="dateRange" label="Due Date Range">
+        <Form.Item name='dateRange' label='Due Date Range'>
           <RangePicker style={{ width: '100%' }} />
         </Form.Item>
 
         <ButtonContainer>
           <Button onClick={handleReset}>Reset</Button>
-          <Button type="primary" htmlType="submit">
+          <Button type='primary' htmlType='submit'>
             Apply Filters
           </Button>
         </ButtonContainer>

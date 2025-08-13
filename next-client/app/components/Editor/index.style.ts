@@ -1,5 +1,5 @@
-import { Modal } from 'antd'
-import styled from 'styled-components'
+import { Modal } from 'antd';
+import styled from 'styled-components';
 
 export const EditorStyle = styled.div`
   .rdw-editor-toolbar {
@@ -90,7 +90,7 @@ export const EditorStyle = styled.div`
     /* overflow: auto; */
     /* padding: 0 10px; */
   }
-`
+`;
 export const EditorFooter = styled.div`
   border: 1px solid var(--neutral-100);
   border-top: none;
@@ -98,7 +98,7 @@ export const EditorFooter = styled.div`
     max-height: 300px;
     overflow: auto;
   }
-`
+`;
 export const UploadModalStyle = styled(Modal)`
   .ant-modal {
     &-content {
@@ -126,7 +126,7 @@ export const UploadModalStyle = styled(Modal)`
       }
     }
   }
-`
+`;
 
 export const LocalStyle = styled.div`
   &.has-files {
@@ -182,7 +182,7 @@ export const LocalStyle = styled.div`
       width: 100%;
     }
   }
-`
+`;
 
 export const FileItemStyle = styled.div`
   padding: 10px 10px 10px 26px;
@@ -210,13 +210,13 @@ export const FileItemStyle = styled.div`
     width: 90%;
     background-color: var(--neutral-100);
   }
-`
+`;
 export const CharacterCounter = styled.div<{
-  textLength: number
-  COMMENT_EDITOR_CHARACTER_LIMIT: number
+  textLength: number;
+  comment_editor_character_limit: number;
 }>`
   text-align: right;
   font-size: 12px;
-  color: ${({ textLength, COMMENT_EDITOR_CHARACTER_LIMIT }) =>
-    textLength > COMMENT_EDITOR_CHARACTER_LIMIT ? 'red' : '#888'};
-`
+  color: ${({ textLength, comment_editor_character_limit }) =>
+    textLength > comment_editor_character_limit ? 'red' : '#888'};
+`;

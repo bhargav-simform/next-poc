@@ -9,12 +9,12 @@ import {
   radiusValues,
   themes,
   widthValues,
-  flexDirectionValues
-} from './variable'
+  flexDirectionValues,
+} from './variable';
 
-const breakpointValue = Object.entries(breakpoints)
+const breakpointValue = Object.entries(breakpoints);
 
-const themeValue = Object.entries(themes)
+const themeValue = Object.entries(themes);
 
 export const colorVariables = themeValue
   .map(
@@ -25,13 +25,13 @@ export const colorVariables = themeValue
         ([color, value]) => `
       --${color}-rgb: ${value};
       --${color}: rgb(${value});
-    `
+    `,
       )
       .join('')}
   }
-`
+`,
   )
-  .join('')
+  .join('');
 
 export const colorUtilities = Object.entries(themes.default)
   .map(
@@ -45,9 +45,9 @@ export const colorUtilities = Object.entries(themes.default)
   .${color} {
     --color: var(--${color});
   }
-`
+`,
   )
-  .join('')
+  .join('');
 
 export const spacingUtilities = spacingValues
   .map(
@@ -94,9 +94,9 @@ export const spacingUtilities = spacingValues
   .mb-${value} {
     margin-block-end: ${value}px;
   }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const responsiveSpacing = breakpointValue
   .map(([size, value]) =>
@@ -147,12 +147,12 @@ export const responsiveSpacing = breakpointValue
       margin-block-end: ${space}px;
     }
   }
-  `
+  `,
       )
-      .join('')
+      .join(''),
   )
   .flat()
-  .join('')
+  .join('');
 
 export const fontUtilities = fontSizes
   .map(
@@ -160,9 +160,9 @@ export const fontUtilities = fontSizes
 .fz-${value} {
   font-size: ${value}px !important;
 }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const responsiveFonts = breakpointValue
   .map(([size, value]) =>
@@ -174,12 +174,12 @@ export const responsiveFonts = breakpointValue
     font-size: ${fontSize}px !important;
   }
 }
-`
+`,
       )
-      .join('')
+      .join(''),
   )
   .flat()
-  .join('')
+  .join('');
 
 export const fontWeightUtilities = fontWeights
   .map(
@@ -187,9 +187,9 @@ export const fontWeightUtilities = fontWeights
 .fw-${value} {
   font-weight: ${value};
 }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const displayUtilities = displayValues
   .map(
@@ -197,9 +197,9 @@ export const displayUtilities = displayValues
 .d-${value} {
   display: ${value};
 }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const responsiveDisplay = breakpointValue
   .map(([size, value]) =>
@@ -211,12 +211,12 @@ export const responsiveDisplay = breakpointValue
     display: ${display};
   }
 }
-`
+`,
       )
-      .join('')
+      .join(''),
   )
   .flat()
-  .join('')
+  .join('');
 
 export const alignItemsUtilities = alignItemsValues
   .map(
@@ -224,9 +224,9 @@ export const alignItemsUtilities = alignItemsValues
 .ai-${value} {
   align-items: ${value};
 }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const responsiveAlignItems = breakpointValue
   .map(([size, value]) =>
@@ -238,12 +238,12 @@ export const responsiveAlignItems = breakpointValue
     align-items: ${alignment};
   }
 }
-`
+`,
       )
-      .join('')
+      .join(''),
   )
   .flat()
-  .join('')
+  .join('');
 
 export const justifyContentUtilities = justifyContentValues
   .map(
@@ -251,9 +251,9 @@ export const justifyContentUtilities = justifyContentValues
 .jc-${value} {
   justify-content: ${value};
 }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const responsiveJustifyContent = breakpointValue
   .map(([size, value]) =>
@@ -265,12 +265,12 @@ export const responsiveJustifyContent = breakpointValue
     justify-content: ${justification};
   }
 }
-`
+`,
       )
-      .join('')
+      .join(''),
   )
   .flat()
-  .join('')
+  .join('');
 
 export const radiusUtilities = radiusValues
   .map(
@@ -278,9 +278,9 @@ export const radiusUtilities = radiusValues
 .radius-${value} {
   border-radius: ${value}px;
 }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const responsiveRadius = breakpointValue
   .map(([size, value]) =>
@@ -292,12 +292,12 @@ export const responsiveRadius = breakpointValue
     border-radius: ${radius}px;
   }
 }
-`
+`,
       )
-      .join('')
+      .join(''),
   )
   .flat()
-  .join('')
+  .join('');
 
 export const gapUtilities = spacingValues
   .map(
@@ -305,9 +305,9 @@ export const gapUtilities = spacingValues
 .gap-${value} {
   gap: ${value}px;
 }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const responsiveGap = breakpointValue
   .map(([size, value]) =>
@@ -319,12 +319,12 @@ export const responsiveGap = breakpointValue
     gap: ${gap}px;
   }
 }
-`
+`,
       )
-      .join('')
+      .join(''),
   )
   .flat()
-  .join('')
+  .join('');
 
 export const widthUtilities = widthValues
   .map(
@@ -332,9 +332,9 @@ export const widthUtilities = widthValues
 .w-${value} {
   width: ${value}% !important;
 }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const responsiveWidth = breakpointValue
   .map(([size, value]) =>
@@ -346,12 +346,12 @@ export const responsiveWidth = breakpointValue
     width: ${width}% ;
   }
 }
-`
+`,
       )
-      .join('')
+      .join(''),
   )
   .flat()
-  .join('')
+  .join('');
 
 // confirm mistake
 export const flexDirectionUtilities = flexDirectionValues
@@ -360,9 +360,9 @@ export const flexDirectionUtilities = flexDirectionValues
 .fd-${value} {
   flex-direction: ${value};
 }
-`
+`,
   )
-  .join('\n')
+  .join('\n');
 
 export const responsiveFlexDirection = breakpointValue
   .map(([size, value]) =>
@@ -374,9 +374,9 @@ export const responsiveFlexDirection = breakpointValue
     flex-direction: ${direction};
   }
 }
-`
+`,
       )
-      .join('')
+      .join(''),
   )
   .flat()
-  .join('')
+  .join('');

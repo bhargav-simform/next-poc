@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 // @ts-nocheck
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 import {
   colorUtilities,
   colorVariables,
@@ -20,9 +20,9 @@ import {
   gapUtilities,
   responsiveGap,
   widthUtilities,
-  flexDirectionUtilities
-} from './utilityClasses'
-import { icons } from './icons'
+  flexDirectionUtilities,
+} from './utilityClasses';
+import { icons } from './icons';
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -854,6 +854,6 @@ input[type="number"] {
 }
 }
 
-`
+`;
 
-export default GlobalStyle
+export default GlobalStyle;

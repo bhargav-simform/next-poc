@@ -31,9 +31,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ErrorBoundary>
           <ThemeProvider>
-            <AntdRegistry>
-              {children}
-            </AntdRegistry>
+            <AntdRegistry>{children}</AntdRegistry>
           </ThemeProvider>
         </ErrorBoundary>
       </body>

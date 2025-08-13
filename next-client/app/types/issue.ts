@@ -1,4 +1,3 @@
-
 export type Status = 'Open' | 'In Progress' | 'Resolved' | 'Closed';
 export type Severity = 'Low' | 'Medium' | 'High';
 export type Browser = 'Chrome' | 'Firefox' | 'Safari' | 'Edge' | 'Other';

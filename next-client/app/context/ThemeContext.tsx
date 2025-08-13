@@ -1,4 +1,5 @@
-"use client";
+'use client';
+
 import '@ant-design/v5-patch-for-react-19';
 import {
   Dispatch,
@@ -8,27 +9,21 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState
-} from 'react'
-import { ConfigProvider } from 'antd'
-import { themes } from '../config/variable'
-import { getAntTheme, getComponent } from '../config/ThemeVariable'
+  useState,
+} from 'react';
+import { ConfigProvider } from 'antd';
+import { themes } from '../config/variable';
+import { getAntTheme, getComponent } from '../config/ThemeVariable';
 
-type ThemeContextType = [
-  keyof typeof themes,
-  Dispatch<SetStateAction<keyof typeof themes>>
-]
-const ThemeContext = createContext<ThemeContextType | null>(null)
+type ThemeContextType = [keyof typeof themes, Dispatch<SetStateAction<keyof typeof themes>>];
+const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({ children }: PropsWithChildren) {
-  const [themeColor, setThemeColor] = useState<keyof typeof themes>('default')
-  const value = useMemo<ThemeContextType>(
-    () => [themeColor, setThemeColor],
-    [themeColor]
-  )
+  const [themeColor, setThemeColor] = useState<keyof typeof themes>('default');
+  const value = useMemo<ThemeContextType>(() => [themeColor, setThemeColor], [themeColor]);
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', themeColor)
-  }, [themeColor])
+    document.documentElement.setAttribute('data-theme', themeColor);
+  }, [themeColor]);
 
   return (
     <ThemeContext.Provider value={value}>
@@ -37,21 +32,21 @@ export function ThemeProvider({ children }: PropsWithChildren) {
         theme={{
           token: getAntTheme,
           components: getComponent,
-          hashed: true
+          hashed: true,
         }}
       >
         {children}
       </ConfigProvider>
     </ThemeContext.Provider>
-  )
+  );
 }
 
 export function useTheme() {
-  const context = useContext(ThemeContext)
+  const context = useContext(ThemeContext);
 
   if (!context) {
-    throw new Error('Invalid hook call')
+    throw new Error('Invalid hook call');
   }
 
-  return context
+  return context;
 }

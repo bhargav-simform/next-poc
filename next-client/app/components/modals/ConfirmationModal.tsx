@@ -10,12 +10,7 @@ interface ConfirmationModalProps {
 
 const { confirm } = Modal;
 
-const showConfirmationModal = ({
-  title,
-  content,
-  onConfirm,
-  onCancel,
-}: ConfirmationModalProps) => {
+const showConfirmationModal = ({ title, content, onConfirm, onCancel }: ConfirmationModalProps) => {
   confirm({
     title,
     icon: <ExclamationCircleFilled />,

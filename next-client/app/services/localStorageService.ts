@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import { Issue } from '../types/issue';
 
 const ISSUES_KEY = 'issues';
@@ -6,19 +7,19 @@ export const localStorageService = {
   getIssues: (): Issue[] => {
     if (typeof window === 'undefined') return [];
     const issues = localStorage.getItem(ISSUES_KEY);
-    return issues ? JSON.parse(issues) : [];
+    return issues ? cloneDeep(JSON.parse(issues)) : [];
   },
 
   saveIssue: (issue: Issue): void => {
     const issues = localStorageService.getIssues();
-    const updatedIssues = [...issues, issue];
+    const updatedIssues = [...issues, cloneDeep(issue)];
     localStorage.setItem(ISSUES_KEY, JSON.stringify(updatedIssues));
   },
 
   updateIssue: (updatedIssue: Issue): void => {
     const issues = localStorageService.getIssues();
-    const updatedIssues = issues.map((issue) => 
-      issue.id === updatedIssue.id ? updatedIssue : issue
+    const updatedIssues = issues.map((issue) =>
+      issue.id === updatedIssue.id ? cloneDeep(updatedIssue) : cloneDeep(issue),
     );
     localStorage.setItem(ISSUES_KEY, JSON.stringify(updatedIssues));
   },
@@ -33,5 +34,5 @@ export const localStorageService = {
     const issues = localStorageService.getIssues();
     const filteredIssues = issues.filter((issue) => !ids.includes(issue.id));
     localStorage.setItem(ISSUES_KEY, JSON.stringify(filteredIssues));
-  }
+  },
 };

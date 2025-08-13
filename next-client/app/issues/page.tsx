@@ -1,15 +1,18 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button, Table, Tag, message } from 'antd';
+import { Table, Tag, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, ExportOutlined } from '@ant-design/icons';
 import { v4 as uuidv4 } from 'uuid';
+import { cloneDeep } from 'lodash';
 import { Container, Header, Title, ActionContainer } from '../components/issues/styles';
 import { Issue, Status, Severity } from '../types/issue';
 import { localStorageService } from '../services/localStorageService';
 import FilterBar from '../components/issues/FilterBar';
 import ConfirmationModal from '../components/issues/ConfirmationModal';
 import IssueForm from '../components/forms/IssueForm';
+import { Button } from '../components/Button';
+import IssueDrawer from '../components/drawers/IssueDrawer';
 
 export default function IssuesPage() {
   const [issues, setIssues] = useState<Issue[]>([]);
@@ -35,13 +38,13 @@ export default function IssuesPage() {
   };
 
   const filterIssues = () => {
-    let filtered = [...issues];
+    let filtered = cloneDeep(issues);
 
     if (searchText) {
       filtered = filtered.filter(
         (issue) =>
           issue.title.toLowerCase().includes(searchText.toLowerCase()) ||
-          issue.assignee.toLowerCase().includes(searchText.toLowerCase())
+          issue.assignee.toLowerCase().includes(searchText.toLowerCase()),
       );
     }
 
@@ -57,8 +60,9 @@ export default function IssuesPage() {
   };
 
   const handleCreateIssue = (formData: any) => {
+    const clonedFormData = cloneDeep(formData);
     const newIssue: Issue = {
-      ...formData,
+      ...clonedFormData,
       id: uuidv4(),
       createdDate: new Date().toISOString(),
     };
@@ -71,7 +75,7 @@ export default function IssuesPage() {
   const handleUpdateIssue = (formData: any) => {
     if (editingIssue) {
       const updatedIssue: Issue = {
-        ...formData,
+        ...cloneDeep(formData), // deep clone
         id: editingIssue.id,
         createdDate: editingIssue.createdDate,
       };
@@ -133,6 +137,11 @@ export default function IssuesPage() {
     link.click();
   };
 
+  const onCloseModal = (): void => {
+    setIsModalVisible(false);
+    setEditingIssue(null);
+  };
+
   const columns = [
     {
       title: 'Title',
@@ -168,20 +177,24 @@ export default function IssuesPage() {
       title: 'Created Date',
       dataIndex: 'createdDate',
       render: (date: string) => new Date(date).toLocaleDateString(),
-      sorter: (a: Issue, b: Issue) => new Date(a.createdDate).getTime() - new Date(b.createdDate).getTime(),
+      sorter: (a: Issue, b: Issue) =>
+        new Date(a.createdDate).getTime() - new Date(b.createdDate).getTime(),
     },
     {
       title: 'Actions',
       key: 'actions',
       render: (_: any, record: Issue) => (
         <ActionContainer>
-          <Button type="link" onClick={() => {
-            setEditingIssue(record);
-            setIsModalVisible(true);
-          }}>
+          <Button
+            type='link'
+            onClick={() => {
+              setEditingIssue(record);
+              setIsModalVisible(true);
+            }}
+          >
             Edit
           </Button>
-          <Button type="link" danger onClick={() => handleDeleteIssue(record.id)}>
+          <Button type='link' danger onClick={() => handleDeleteIssue(record.id)}>
             Delete
           </Button>
         </ActionContainer>
@@ -203,7 +216,7 @@ export default function IssuesPage() {
             Export CSV
           </Button>
           <Button
-            type="primary"
+            type='primary'
             icon={<PlusOutlined />}
             onClick={() => {
               setEditingIssue(null);
@@ -222,7 +235,7 @@ export default function IssuesPage() {
       />
 
       <Table
-        rowKey="id"
+        rowKey='id'
         columns={columns}
         dataSource={filteredIssues}
         rowSelection={{
@@ -230,17 +243,14 @@ export default function IssuesPage() {
           onChange: (selectedKeys) => setSelectedRowKeys(selectedKeys as string[]),
         }}
       />
-
-      <IssueForm
-        title={editingIssue ? 'Edit Issue' : 'Create Issue'}
-        initialValues={editingIssue || undefined}
-        isModalVisible={isModalVisible}
-        onCancel={() => {
-          setIsModalVisible(false);
-          setEditingIssue(null);
-        }}
-        onSubmit={editingIssue ? handleUpdateIssue : handleCreateIssue}
-      />
+      {isModalVisible && (
+        <IssueDrawer
+          initialValues={editingIssue || undefined}
+          isModalVisible={isModalVisible}
+          onClose={onCloseModal}
+          onSubmit={editingIssue ? handleUpdateIssue : handleCreateIssue}
+        />
+      )}
     </Container>
   );
 }
