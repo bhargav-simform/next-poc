@@ -7,9 +7,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { Container, Header, Title, ActionContainer } from '../components/issues/styles';
 import { Issue, Status, Severity } from '../types/issue';
 import { localStorageService } from '../services/localStorageService';
-import IssueForm from '../components/issues/IssueForm';
 import FilterBar from '../components/issues/FilterBar';
 import ConfirmationModal from '../components/issues/ConfirmationModal';
+import IssueForm from '../components/forms/IssueForm';
 
 export default function IssuesPage() {
   const [issues, setIssues] = useState<Issue[]>([]);

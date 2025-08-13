@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { message } from 'antd';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,8 +10,10 @@ import { localStorageService } from '@/app/services/localStorageService';
 
 export default function NewIssuePage() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (values: IssueFormData) => {
+    setIsLoading(true);
     try {
       const newIssue = {
         ...values,
@@ -24,8 +26,18 @@ export default function NewIssuePage() {
     } catch (error) {
       message.error('Failed to create issue');
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  return <IssueForm onSubmit={handleSubmit} />;
+  return (
+    <IssueForm
+      title="Create New Issue"
+      onSubmit={handleSubmit}
+      onCancel={() => router.push('/issues')}
+      isModalVisible={true}
+      isLoading={isLoading}
+    />
+  );
 }

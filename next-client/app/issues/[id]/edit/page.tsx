@@ -17,11 +17,12 @@ export default function EditIssuePage({ params }: Props) {
   const router = useRouter();
   const [issue, setIssue] = useState<Issue | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const loadIssue = () => {
       const issues = localStorageService.getIssues();
-      const foundIssue = issues.find((i) => i.id === params.id);
+      const foundIssue = issues.find((i: Issue) => i.id === params.id);
       if (foundIssue) {
         setIssue(foundIssue);
       } else {
@@ -35,6 +36,7 @@ export default function EditIssuePage({ params }: Props) {
   }, [params.id, router]);
 
   const handleSubmit = async (values: IssueFormData) => {
+    setIsSubmitting(true);
     try {
       const updatedIssue = {
         ...values,
@@ -47,6 +49,8 @@ export default function EditIssuePage({ params }: Props) {
     } catch (error) {
       message.error('Failed to update issue');
       console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -58,5 +62,14 @@ export default function EditIssuePage({ params }: Props) {
     return null;
   }
 
-  return <IssueForm initialValues={issue} onSubmit={handleSubmit} />;
+  return (
+    <IssueForm
+      title="Edit Issue"
+      initialValues={issue}
+      onSubmit={handleSubmit}
+      onCancel={() => router.push('/issues')}
+      isModalVisible={true}
+      isLoading={isSubmitting}
+    />
+  );
 }

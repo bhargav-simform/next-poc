@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { message, Card, Descriptions, Tag, Button, Space } from 'antd';
+import { message, Card, Descriptions, Tag, Button, Space, Skeleton } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { Issue, User, mockUsers } from '@/app/types/issue';
+import { Issue, User, mockUsers, Status, Severity } from '@/app/types/issue';
 import { localStorageService } from '@/app/services/localStorageService';
 import showConfirmationModal from '@/app/components/modals/ConfirmationModal';
+import ErrorBoundary from '@/app/context/ErrorBoundary';
 
 const PageContainer = styled.div`
   max-width: 800px;
@@ -82,8 +83,35 @@ export default function IssueDetailsPage({ params }: Props) {
     });
   };
 
+  const getStatusColor = (status: Status) => {
+    switch (status) {
+      case 'Open': return 'blue';
+      case 'In Progress': return 'orange';
+      case 'Resolved': return 'green';
+      default: return 'gray';
+    }
+  };
+
+  const getSeverityColor = (severity: Severity) => {
+    switch (severity) {
+      case 'High': return 'red';
+      case 'Medium': return 'orange';
+      case 'Low': return 'green';
+      default: return 'blue';
+    }
+  };
+
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <PageContainer>
+        <Header>
+          <Title>Issue Details</Title>
+        </Header>
+        <StyledCard>
+          <Skeleton active paragraph={{ rows: 10 }} />
+        </StyledCard>
+      </PageContainer>
+    );
   }
 
   if (!issue) {
@@ -93,65 +121,62 @@ export default function IssueDetailsPage({ params }: Props) {
   const assignee = mockUsers.find((user: User) => user.id === issue.assignee);
 
   return (
-    <PageContainer>
-      <Header>
-        <Title>Issue Details</Title>
-        <Space>
-          <Link href={`/issues/${issue.id}/edit`} passHref>
-            <Button icon={<EditOutlined />}>Edit</Button>
-          </Link>
-          <Button
-            danger
-            icon={<DeleteOutlined />}
-            onClick={handleDelete}
-          >
-            Delete
-          </Button>
-        </Space>
-      </Header>
+    <ErrorBoundary>
+      <PageContainer>
+        <Header>
+          <Title>Issue Details</Title>
+          <Space>
+            <Link href={`/issues/${issue.id}/edit`} passHref>
+              <Button icon={<EditOutlined />} type="primary">Edit</Button>
+            </Link>
+            <Button
+              danger
+              icon={<DeleteOutlined />}
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
+          </Space>
+        </Header>
 
-      <StyledCard>
-        <Descriptions column={1} bordered>
-          <Descriptions.Item label="ID">{issue.id}</Descriptions.Item>
-          <Descriptions.Item label="Title">{issue.title}</Descriptions.Item>
-          <Descriptions.Item label="Assignee">
-            {assignee?.name || 'Unassigned'}
-          </Descriptions.Item>
-          <Descriptions.Item label="Due Date">
-            {new Date(issue.dueDate).toLocaleDateString()}
-          </Descriptions.Item>
-          <Descriptions.Item label="Severity">
-            <Tag color={issue.severity === 'High' ? 'red' : issue.severity === 'Medium' ? 'orange' : 'green'}>
-              {issue.severity}
-            </Tag>
-          </Descriptions.Item>
-          <Descriptions.Item label="Status">
-            <Tag color={
-              issue.status === 'Open' ? 'blue' :
-              issue.status === 'In Progress' ? 'orange' :
-              issue.status === 'Resolved' ? 'green' :
-              'gray'
-            }>
-              {issue.status}
-            </Tag>
-          </Descriptions.Item>
-          <Descriptions.Item label="Browser">{issue.browser}</Descriptions.Item>
-          <Descriptions.Item label="Reproducible">
-            {issue.reproducible ? 'Yes' : 'No'}
-          </Descriptions.Item>
-          <Descriptions.Item label="Estimation">
-            {issue.estimation} hours
-          </Descriptions.Item>
-          <Descriptions.Item label="Created Date">
-            {new Date(issue.createdDate).toLocaleString()}
-          </Descriptions.Item>
-        </Descriptions>
+        <StyledCard>
+          <Descriptions column={1} bordered>
+            <Descriptions.Item label="ID">{issue.id}</Descriptions.Item>
+            <Descriptions.Item label="Title">{issue.title}</Descriptions.Item>
+            <Descriptions.Item label="Assignee">
+              {assignee?.name || 'Unassigned'}
+            </Descriptions.Item>
+            <Descriptions.Item label="Due Date">
+              {new Date(issue.dueDate).toLocaleDateString()}
+            </Descriptions.Item>
+            <Descriptions.Item label="Severity">
+              <Tag color={getSeverityColor(issue.severity)}>
+                {issue.severity}
+              </Tag>
+            </Descriptions.Item>
+            <Descriptions.Item label="Status">
+              <Tag color={getStatusColor(issue.status)}>
+                {issue.status}
+              </Tag>
+            </Descriptions.Item>
+            <Descriptions.Item label="Browser">{issue.browser}</Descriptions.Item>
+            <Descriptions.Item label="Reproducible">
+              {issue.reproducible ? 'Yes' : 'No'}
+            </Descriptions.Item>
+            <Descriptions.Item label="Estimation">
+              {issue.estimation} hours
+            </Descriptions.Item>
+            <Descriptions.Item label="Created Date">
+              {new Date(issue.createdDate).toLocaleString()}
+            </Descriptions.Item>
+          </Descriptions>
 
-        <Description>
-          <h2>Description</h2>
-          <div dangerouslySetInnerHTML={{ __html: issue.description }} />
-        </Description>
-      </StyledCard>
-    </PageContainer>
+          <Description>
+            <h2>Description</h2>
+            <div dangerouslySetInnerHTML={{ __html: issue.description }} />
+          </Description>
+        </StyledCard>
+      </PageContainer>
+    </ErrorBoundary>
   );
 }
