@@ -5,6 +5,7 @@ import '@ant-design/v5-patch-for-react-19';
 import ThemeProvider from '../styles/ThemeProvider';
 import AntdRegistry from './components/AntdRegistry';
 import ErrorBoundary from './context/ErrorBoundary';
+import Providers from './providers';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -31,7 +32,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ErrorBoundary>
           <ThemeProvider>
-            <AntdRegistry>{children}</AntdRegistry>
+            <AntdRegistry>
+              <Providers>{children}</Providers>
+            </AntdRegistry>
           </ThemeProvider>
         </ErrorBoundary>
       </body>
