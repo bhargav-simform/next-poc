@@ -15,7 +15,7 @@ import { Button } from '../Button';
 const Editor = dynamic(() => import('../Editor'), { ssr: false });
 
 interface IssueFormProps {
-  initialValues?: Issue;
+  initialValues?: Issue | IssueFormData | undefined;
   onSubmit: (values: IssueFormData) => void;
   onCancel: () => void;
   isLoading?: boolean;

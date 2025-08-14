@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag, Space, message } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Issue, Status, Severity, mockUsers } from '../../types/issue';
+import { Status, Severity, Issue, mockUsers } from '../../types/issue';
 import { Button } from '../Button';
+import { issueService } from '../../services/issueService';
 
 const TableContainer = styled.div`
   .ant-table-wrapper {
@@ -57,10 +58,27 @@ const getSeverityColor = (severity: Severity): string => {
   }
 };
 
-function IssueTable({ data, loading, onDelete, pagination }: IssueTableProps) {
+const IssueTable: React.FC<IssueTableProps> = ({ data, loading, onDelete, pagination  }) => {
+  // const { issues, loading, error, refetch } = issueService.useIssues();
+  const { remove, loading: deleteLoading } = issueService.useRemoveIssue();
+
   const getAssigneeName = (id: string) => {
     const user = mockUsers.find((u) => u.id === id);
     return user ? user.name : 'Unassigned';
+  };
+  // if (error) {
+  //   message.error('Failed to load issues');
+  //   return null;
+  // }
+
+  const handleDelete = async (id: string) => {
+    try {
+      await remove(id);
+      message.success('Issue deleted successfully');
+      // refetch(); // Refresh the issues list
+    } catch (error) {
+      message.error('Failed to delete issue');
+    }
   };
 
   const columns = [
@@ -98,27 +116,42 @@ function IssueTable({ data, loading, onDelete, pagination }: IssueTableProps) {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      render: (status: Status) => <Tag color={getStatusColor(status)}>{status}</Tag>,
+      render: (status: Status) => (
+        <Tag color={getStatusColor(status)}>{status}</Tag>
+      ),
     },
     {
-      title: 'Actions',
-      key: 'actions',
-      render: (_, record: Issue) => (
-        <Space>
-          <Link href={`/issues/${record.id}`} passHref>
-            <Button icon={<EyeOutlined />} size='small' />
+      title: 'Priority',
+      dataIndex: 'priority',
+      key: 'priority',
+      render: (priority: Severity) => (
+        <Tag color={getSeverityColor(priority)}>{priority}</Tag>
+      ),
+    },
+    {
+      title: 'Created At',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: (date: string) => new Date(date).toLocaleDateString(),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_: any, record: any) => (
+        <Space size="middle">
+          <Link href={`/issues/${record.id}`}>
+            <Button type="text" icon={<EyeOutlined />} />
           </Link>
-          <Link href={`/issues/${record.id}/edit`} passHref>
-            <Button icon={<EditOutlined />} size='small' />
+          <Link href={`/issues/${record.id}/edit`}>
+            <Button type="text" icon={<EditOutlined />} />
           </Link>
-          {onDelete && (
-            <Button
-              icon={<DeleteOutlined />}
-              size='small'
-              danger
-              onClick={() => onDelete(record.id)}
-            />
-          )}
+          <Button
+            type="text"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record.id)}
+            loading={deleteLoading}
+          />
         </Space>
       ),
     },
