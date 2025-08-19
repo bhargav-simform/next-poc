@@ -151,15 +151,15 @@ export default function IssueDetailsPage({ issueId }: Props) {
           <Descriptions.Item label='Due Date'>
             {new Date(issue.due_date).toLocaleDateString()}
           </Descriptions.Item>
-          <Descriptions.Item label='Severity'>
-            <Tag color={getSeverityColor(issue.severity)}>{issue.severity}</Tag>
+          <Descriptions.Item label='Priority'>
+            <Tag color={getSeverityColor(issue.priority)}>{issue.priority}</Tag>
           </Descriptions.Item>
           <Descriptions.Item label='Status'>
             <Tag color={getStatusColor(issue.status)}>{issue.status}</Tag>
           </Descriptions.Item>
           <Descriptions.Item label='Browser'>{issue.browser}</Descriptions.Item>
           <Descriptions.Item label='Reproachable'>
-            {issue.reproachable ? 'Yes' : 'No'}
+            {issue.reproducible ? 'Yes' : 'No'}
           </Descriptions.Item>
           <Descriptions.Item label='Estimation'>{issue.estimation} hours</Descriptions.Item>
           <Descriptions.Item label='Created Date'>

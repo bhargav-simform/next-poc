@@ -22,7 +22,6 @@ const ButtonContainer = styled.div`
 
 interface FilterValues {
   assignees?: string[];
-  severity?: Severity[];
   browser?: string[];
   reproducible?: boolean;
   status?: Status[];
@@ -75,16 +74,6 @@ function FilterDrawer({ open, onClose, onFilter, currentFilters }: FilterDrawerP
           </Select>
         </Form.Item>
 
-        <Form.Item name='severity' label='Severity'>
-          <Select mode='multiple' placeholder='Filter by severity' allowClear>
-            {['Low', 'Medium', 'High'].map((severity) => (
-              <Select.Option key={severity} value={severity}>
-                {severity}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-
         <Form.Item name='browser' label='Browser'>
           <Select mode='multiple' placeholder='Filter by browser' allowClear>
             {['Chrome', 'Firefox', 'Safari', 'Edge', 'Other'].map((browser) => (
@@ -95,7 +84,7 @@ function FilterDrawer({ open, onClose, onFilter, currentFilters }: FilterDrawerP
           </Select>
         </Form.Item>
 
-        <Form.Item name='reproducible' label='Reproducible' valuePropName='checked'>
+        <Form.Item name='reproducible' label='Reproachable' valuePropName='checked'>
           <Switch />
         </Form.Item>
 

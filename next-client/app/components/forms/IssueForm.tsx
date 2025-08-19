@@ -8,9 +8,10 @@ import { cloneDeep } from 'lodash';
 import { ContentState, EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { StyledForm, ButtonContainer } from './styles';
-import { Issue, IssueFormData, mockUsers } from '../../types/issue';
+import { IssueFormData, mockUsers } from '../../types/issue';
 import 'draft-js/dist/Draft.css';
 import { Button } from '../Button';
+import { Issue } from '@/app/generated/graphql';
 
 const Editor = dynamic(() => import('../Editor'), { ssr: false });
 
@@ -50,7 +51,7 @@ const IssueForm: React.FC<IssueFormProps> = ({
     const clonedValues = cloneDeep(values);
     const formattedValues: IssueFormData = {
       ...clonedValues,
-      dueDate: clonedValues.dueDate.toISOString(),
+      due_date: clonedValues.due_date.toISOString(),
       description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
     };
     await onSubmit(formattedValues);
@@ -59,7 +60,7 @@ const IssueForm: React.FC<IssueFormProps> = ({
   const initialFormValues = initialValues
     ? {
         ...cloneDeep(initialValues),
-        dueDate: dayjs(initialValues.dueDate),
+        due_date: dayjs(initialValues.due_date),
       }
     : undefined;
 
@@ -102,25 +103,11 @@ const IssueForm: React.FC<IssueFormProps> = ({
         </Form.Item>
 
         <Form.Item
-          name='dueDate'
+          name='due_date'
           label='Due Date'
           rules={[{ required: true, message: 'Please select a due date' }]}
         >
           <DatePicker style={{ width: '100%' }} />
-        </Form.Item>
-
-        <Form.Item
-          name='severity'
-          label='Severity'
-          rules={[{ required: true, message: 'Please select severity' }]}
-        >
-          <Select placeholder='Select severity'>
-            {severityOptions.map((severity) => (
-              <Select.Option key={severity} value={severity}>
-                {severity}
-              </Select.Option>
-            ))}
-          </Select>
         </Form.Item>
 
         <Form.Item
@@ -137,7 +124,7 @@ const IssueForm: React.FC<IssueFormProps> = ({
           </Select>
         </Form.Item>
 
-        <Form.Item name='reproducible' label='Reproducible' valuePropName='checked'>
+        <Form.Item name='reproducible' label='Reproachable' valuePropName='checked'>
           <Switch />
         </Form.Item>
 

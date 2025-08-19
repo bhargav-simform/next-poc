@@ -1,5 +1,5 @@
-import { InputType, Field } from '@nestjs/graphql';
-
+import { InputType, Field, GraphQLISODateTime } from '@nestjs/graphql';
+ 
 @InputType()
 export class CreateIssueInput {
   @Field()
@@ -17,23 +17,17 @@ export class CreateIssueInput {
   @Field()
   assignee: string;
 
-  @Field()
+  @Field(() => GraphQLISODateTime, {
+    nullable: true,
+    description: 'Due Date',
+  })
   due_date: Date;
-
-  @Field()
-  severity: string;
-
-  @Field()
-  created_at: Date;
-
-  @Field()
-  updated_at: Date;
 
   @Field()
   browser: string;
 
   @Field({ defaultValue: true })
-  reproachable: boolean;
+  reproducible: boolean;
 
   @Field()
   estimation: number;
@@ -41,8 +35,6 @@ export class CreateIssueInput {
 
 @InputType()
 export class UpdateIssueInput {
-  @Field()
-  id: string;
 
   @Field({ nullable: true })
   title?: string;
@@ -59,23 +51,17 @@ export class UpdateIssueInput {
   @Field({ nullable: true })
   assignee?: string;
 
-  @Field({ nullable: true })
-  due_date?: Date;
-
-  @Field({ nullable: true })
-  severity?: string;
-
-  @Field({ nullable: true })
-  created_date?: Date;
-
-  @Field({ nullable: true })
-  updated_date?: Date;
+  @Field(() => GraphQLISODateTime, {
+    nullable: true,
+    description: 'Due Date',
+  })
+  due_date: Date;
 
   @Field({ nullable: true })
   browser?: string;
 
   @Field({ nullable: true })
-  reproachable?: boolean;
+  reproducible?: boolean;
 
   @Field({ nullable: true })
   estimation?: number;

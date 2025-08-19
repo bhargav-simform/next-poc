@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { Space, Table, TableColumnsType, Tag, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, ExportOutlined, EyeOutlined, EditOutlined } from '@ant-design/icons';
-import { v4 as uuidv4 } from 'uuid';
 import { cloneDeep } from 'lodash';
 import { Container, Header, Title, ActionContainer } from '../components/issues/styles';
 import { Status, Severity, IssueFormData, mockUsers } from '../types/issue';
@@ -14,7 +13,7 @@ import { Button } from '../components/Button';
 import IssueDrawer from '../components/drawers/IssueDrawer';
 import Link from 'next/link';
 import { issueService } from '../services/issueService';
-import { Issue } from '../generated/graphql';
+import { CreateIssueInput, Issue, UpdateIssueInput } from '../generated/graphql';
 
 const getStatusColor = (status: Status): string => {
   switch (status) {
@@ -60,8 +59,10 @@ export default function IssuesPage() {
   const [severityFilters, setSeverityFilters] = useState<string[]>([]);
 
   const { remove, loading: deleteLoading } = issueService.useRemoveIssue();
-  const { issues, loading: issuesLoading, error: issuesError } = issueService.useIssues();
-  
+  const { create, loading: createLoading } = issueService.useCreateIssue();
+  const { update, loading: updateLoading } = issueService.useUpdateIssue();
+  const { issues, loading: issuesLoading, error: issuesError, refetch } = issueService.useIssues();
+
 
   function filterIssues() {
     let filtered = cloneDeep(issues);
@@ -79,7 +80,7 @@ export default function IssuesPage() {
     }
 
     if (severityFilters.length > 0) {
-      filtered = filtered.filter((issue) => severityFilters.includes(issue.severity));
+      filtered = filtered.filter((issue) => severityFilters.includes(issue.priority));
     }
 
     setFilteredIssues(filtered);
@@ -91,39 +92,47 @@ export default function IssuesPage() {
   }, [issues, searchText, statusFilters, severityFilters]);
 
   const handleDelete = async (id: string) => {
-      try {
-        await remove(id);
-        message.success('Issue deleted successfully');
-        // refetch(); // Refresh the issues list
-      } catch (error) {
-        message.error('Failed to delete issue');
-      }
+    try {
+      await remove(id);
+      message.success('Issue deleted successfully');
+      refetch();
+    } catch (error) {
+      message.error('Failed to delete issue');
+    }
   };
-  
 
-  const handleCreateIssue = (formData: IssueFormData) => {
-    const clonedFormData = cloneDeep(formData);
-    const newIssue: Issue = {
+
+  const handleCreateIssue = async (formData: IssueFormData) => {
+    const clonedFormData = await cloneDeep(formData);
+    const newIssue: CreateIssueInput = {
       ...clonedFormData,
-      id: uuidv4(),
-      created_at: new Date().toISOString(),
     };
-    localStorageService.saveIssue(newIssue);
+    try {
+      await create(newIssue);
+    } catch (error) {
+      message.error('Failed to create issue');
+      return;
+
+    }
     setIsModalVisible(false);
     message.success('Issue created successfully');
   };
 
-  const handleUpdateIssue = (formData: IssueFormData) => {
+  const handleUpdateIssue = async (formData: IssueFormData) => {
     if (editingIssue) {
-      const updatedIssue: Issue = {
-        ...cloneDeep(formData), // deep clone
-        id: editingIssue.id,
-        created_at: editingIssue.created_at,
+      const updatedIssue: UpdateIssueInput = {
+        ...cloneDeep(formData),
       };
-      localStorageService.updateIssue(updatedIssue);
+      await update(editingIssue.id, updatedIssue)
+        .then(async () => {
+          refetch();
+          message.success('Issue updated successfully');
+        })
+        .catch(() => {
+          message.error('Failed to update issue');
+        });
       setEditingIssue(null);
       setIsModalVisible(false);
-      message.success('Issue updated successfully');
     }
   };
 
@@ -154,13 +163,13 @@ export default function IssuesPage() {
 
   const handleExportCSV = () => {
     const csvContent = [
-      ['ID', 'Title', 'Description', 'Status', 'Severity', 'Assignee', 'Created Date'],
+      ['ID', 'Title', 'Description', 'Status', 'Priority', 'Assignee', 'Created Date'],
       ...filteredIssues.map((issue) => [
         issue.id,
         issue.title,
         issue.description,
         issue.status,
-        issue.severity,
+        issue.priority,
         issue.assignee,
         issue.created_at,
       ]),
@@ -182,12 +191,6 @@ export default function IssuesPage() {
 
   const columns: TableColumnsType<Issue> = [
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-      width: 100,
-    },
-    {
       title: 'Title',
       dataIndex: 'title',
       key: 'title',
@@ -201,15 +204,12 @@ export default function IssuesPage() {
     },
     {
       title: 'Due Date',
-      dataIndex: 'dueDate',
-      key: 'dueDate',
-      render: (date: string) => new Date(date).toLocaleDateString(),
-    },
-    {
-      title: 'Severity',
-      dataIndex: 'severity',
-      key: 'severity',
-      render: (severity: Severity) => <Tag color={getSeverityColor(severity)}>{severity}</Tag>,
+      dataIndex: 'due_date',
+      key: 'due_date',
+      render: (date: Date) => {
+        console.log(date, 'date');
+        return new Date(date).toLocaleDateString();
+      },
     },
     {
       title: 'Status',
@@ -229,9 +229,9 @@ export default function IssuesPage() {
     },
     {
       title: 'Created At',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (date: string) => new Date(date).toLocaleDateString(),
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (date: Date) => new Date(date).toLocaleDateString(),
     },
     {
       title: 'Action',
@@ -241,9 +241,10 @@ export default function IssuesPage() {
           <Link href={`/issues/${record.id}`}>
             <Button type="text" icon={<EyeOutlined />} />
           </Link>
-          <Link href={`/issues/${record.id}/edit`}>
-            <Button type="text" icon={<EditOutlined />} />
-          </Link>
+          <Button type="text" icon={<EditOutlined />} onClick={() => {
+              setEditingIssue(record);
+              setIsModalVisible(true);
+          }}/>
           <Button
             type="text"
             danger
@@ -290,6 +291,7 @@ export default function IssuesPage() {
 
       <Table
         rowKey='id'
+        loading={issuesLoading}
         columns={columns}
         dataSource={filteredIssues}
         rowSelection={{
@@ -302,6 +304,7 @@ export default function IssuesPage() {
           title={editingIssue ? 'Edit Issue' : 'Create Issue'}
           initialValues={editingIssue || undefined}
           open={isModalVisible}
+          isLoading={createLoading || updateLoading}
           onClose={onCloseModal}
           onSubmit={editingIssue ? handleUpdateIssue : handleCreateIssue}
         />

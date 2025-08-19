@@ -22,7 +22,12 @@ export class IssueService {
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    return data;
+    return data.map(issue => ({
+      ...issue,
+      due_date: issue.due_date ? new Date(issue.due_date) : null,
+      created_at: new Date(issue.created_at),
+      updated_at: new Date(issue.updated_at)
+    }));
   }
 
   async findOne(id: string): Promise<Issue> {
@@ -33,7 +38,12 @@ export class IssueService {
       .single();
 
     if (error) throw error;
-    return data;
+    return {
+      ...data,
+      due_date: data.due_date ? new Date(data.due_date) : null,
+      created_at: new Date(data.created_at),
+      updated_at: new Date(data.updated_at)
+    };
   }
 
   async create(createIssueInput: CreateIssueInput): Promise<Issue> {
@@ -41,13 +51,21 @@ export class IssueService {
       .from('issues')
       .insert([{
         ...createIssueInput,
+        due_date: createIssueInput.due_date ? new Date(createIssueInput.due_date).toISOString() : null,
         created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       }])
       .select()
       .single();
 
     if (error) throw error;
-    return data;
+    
+    return {
+      ...data,
+      due_date: data.due_date ? new Date(data.due_date) : null,
+      created_at: new Date(data.created_at),
+      updated_at: new Date(data.updated_at)
+    };
   }
 
   async update(id: string, updateIssueInput: UpdateIssueInput): Promise<Issue> {
@@ -62,7 +80,14 @@ export class IssueService {
       .single();
 
     if (error) throw error;
-    return data;
+
+
+    return {
+      ...data,
+      due_date: data.due_date ? new Date(data.due_date) : null,
+      created_at: new Date(data.created_at),
+      updated_at: new Date(data.updated_at)
+    };
   }
 
   async remove(id: string): Promise<boolean> {

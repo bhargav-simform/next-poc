@@ -10,11 +10,10 @@ export const GET_ISSUES = gql`
       priority
       assignee
       due_date
-      severity
       created_at
       updated_at
       browser
-      reproachable
+      reproducible
       estimation
     }
   }
@@ -23,18 +22,14 @@ export const GET_ISSUES = gql`
 export const CREATE_ISSUE = gql`
   mutation CreateIssue($createIssueInput: CreateIssueInput!) {
     createIssue(createIssueInput: $createIssueInput) {
-      id
       title
       description
       status
       priority
-      created_at
-      updated_at
       browser
-      reproachable
+      reproducible
       estimation
       due_date
-      severity
     }
   }
 `;
@@ -42,18 +37,14 @@ export const CREATE_ISSUE = gql`
 export const UPDATE_ISSUE = gql`
   mutation UpdateIssue($id: String!, $updateIssueInput: UpdateIssueInput!) {
     updateIssue(id: $id, updateIssueInput: $updateIssueInput) {
-      id
       title
       description
       status
       priority
-      created_at
-      updated_at
       browser
-      reproachable
+      reproducible
       estimation
       due_date
-      severity
     }
   }
 `;
