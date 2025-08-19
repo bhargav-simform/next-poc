@@ -16,16 +16,21 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(_: Error): ErrorBoundaryState {
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.log({ error, errorInfo });
+    // Log error to an error reporting service
+    /* eslint-disable no-console */
+    console.error('Error:', error);
+    console.error('Error Info:', errorInfo);
+    /* eslint-enable no-console */
   }
 
   render() {
-    if (this.state.hasError) {
+    const { hasError } = this.state;
+    if (hasError) {
       return (
         <div>
           <h2>Oops, there is an error!</h2>
@@ -36,7 +41,8 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       );
     }
 
-    return this.props.children;
+    const { children } = this.props;
+    return children;
   }
 }
 

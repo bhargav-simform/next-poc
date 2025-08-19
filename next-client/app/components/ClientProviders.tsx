@@ -13,12 +13,10 @@ interface ClientProvidersProps {
 
 export default function ClientProviders({ children }: ClientProvidersProps) {
   return (
-    <StyleProvider hashPriority="high">
+    <StyleProvider hashPriority='high'>
       <ConfigProvider>
         <ApolloProvider client={client}>
-          <ThemeProvider>
-            {children}
-          </ThemeProvider>
+          <ThemeProvider>{children}</ThemeProvider>
         </ApolloProvider>
       </ConfigProvider>
     </StyleProvider>

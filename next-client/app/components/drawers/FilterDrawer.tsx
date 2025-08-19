@@ -2,12 +2,12 @@ import React from 'react';
 import { Drawer, Form, Select, DatePicker, Switch } from 'antd';
 import styled from 'styled-components';
 import { cloneDeep } from 'lodash';
-import { Status, Severity, mockUsers } from '../../types/issue';
+import { Status, mockUsers } from '../../types/issue';
 import { Button } from '../Button';
 
 const { RangePicker } = DatePicker;
 
-const FilterForm = styled(Form)`
+const FilterForm = styled(Form<FilterValues>)`
   .ant-form-item {
     margin-bottom: 16px;
   }
@@ -25,6 +25,10 @@ interface FilterValues {
   browser?: string[];
   reproducible?: boolean;
   status?: Status[];
+  dateRange?: [Date, Date];
+}
+
+interface FilterSubmitValues extends Omit<FilterValues, 'dateRange'> {
   dateRange?: [string, string];
 }
 
@@ -36,17 +40,17 @@ interface FilterDrawerProps {
 }
 
 function FilterDrawer({ open, onClose, onFilter, currentFilters }: FilterDrawerProps) {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<FilterValues>();
 
-  const handleFilter = (values: any) => {
+  const handleFilter = (values: FilterValues) => {
     const clonedValues = cloneDeep(values);
-    const filters: FilterValues = {
+    const filters: FilterSubmitValues = {
       ...clonedValues,
       dateRange: clonedValues.dateRange
         ? [clonedValues.dateRange[0].toISOString(), clonedValues.dateRange[1].toISOString()]
         : undefined,
     };
-    onFilter(filters);
+    onFilter(filters as FilterValues);
     onClose();
   };
 

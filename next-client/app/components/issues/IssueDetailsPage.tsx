@@ -6,7 +6,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { User, mockUsers, Status, Severity } from '@/app/types/issue';
+import { User, mockUsers } from '@/app/types/issue';
 import { localStorageService } from '@/app/services/localStorageService';
 import showConfirmationModal from '@/app/components/modals/ConfirmationModal';
 import { Button } from '@/app/components/Button';

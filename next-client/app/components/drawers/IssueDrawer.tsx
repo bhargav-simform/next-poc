@@ -20,13 +20,7 @@ function IssueDrawer({
   isLoading,
 }: IssueDrawerProps) {
   return (
-    <Drawer
-      title={title}
-      open={open}
-      onClose={onClose}
-      width={600}
-      destroyOnHidden={false}
-    >
+    <Drawer title={title} open={open} onClose={onClose} width={600} destroyOnHidden={false}>
       <IssueForm
         initialValues={initialValues}
         onSubmit={onSubmit}

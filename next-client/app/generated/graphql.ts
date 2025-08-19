@@ -1,21 +1,26 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = {
+  [_ in K]?: never;
+};
+export type Incremental<T> =
+  | T
+  | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
-  DateTime: { input: any; output: any; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
+  DateTime: { input: any; output: any };
 };
 
 export type CreateIssueInput = {
@@ -54,16 +59,13 @@ export type Mutation = {
   updateIssue: Issue;
 };
 
-
 export type MutationCreateIssueArgs = {
   createIssueInput: CreateIssueInput;
 };
 
-
 export type MutationRemoveIssueArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type MutationUpdateIssueArgs = {
   id: Scalars['String']['input'];
@@ -75,7 +77,6 @@ export type Query = {
   issue: Issue;
   issues: Array<Issue>;
 };
-
 
 export type QueryIssueArgs = {
   id: Scalars['String']['input'];
@@ -94,52 +95,90 @@ export type UpdateIssueInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type GetIssuesQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetIssuesQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type GetIssuesQuery = { __typename?: 'Query', issues: Array<{ __typename?: 'Issue', id: string, title: string, description: string, status: string, priority: string, assignee: string, due_date?: any | null, created_at: any, updated_at: any, browser: string, reproducible: boolean, estimation: number }> };
+export type GetIssuesQuery = {
+  __typename?: 'Query';
+  issues: Array<{
+    __typename?: 'Issue';
+    id: string;
+    title: string;
+    description: string;
+    status: string;
+    priority: string;
+    assignee: string;
+    due_date?: any | null;
+    created_at: any;
+    updated_at: any;
+    browser: string;
+    reproducible: boolean;
+    estimation: number;
+  }>;
+};
 
 export type CreateIssueMutationVariables = Exact<{
   createIssueInput: CreateIssueInput;
 }>;
 
-
-export type CreateIssueMutation = { __typename?: 'Mutation', createIssue: { __typename?: 'Issue', title: string, description: string, status: string, priority: string, browser: string, reproducible: boolean, estimation: number, due_date?: any | null } };
+export type CreateIssueMutation = {
+  __typename?: 'Mutation';
+  createIssue: {
+    __typename?: 'Issue';
+    title: string;
+    description: string;
+    status: string;
+    priority: string;
+    browser: string;
+    reproducible: boolean;
+    estimation: number;
+    due_date?: any | null;
+  };
+};
 
 export type UpdateIssueMutationVariables = Exact<{
   id: Scalars['String']['input'];
   updateIssueInput: UpdateIssueInput;
 }>;
 
-
-export type UpdateIssueMutation = { __typename?: 'Mutation', updateIssue: { __typename?: 'Issue', title: string, description: string, status: string, priority: string, browser: string, reproducible: boolean, estimation: number, due_date?: any | null } };
+export type UpdateIssueMutation = {
+  __typename?: 'Mutation';
+  updateIssue: {
+    __typename?: 'Issue';
+    title: string;
+    description: string;
+    status: string;
+    priority: string;
+    browser: string;
+    reproducible: boolean;
+    estimation: number;
+    due_date?: any | null;
+  };
+};
 
 export type RemoveIssueMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
-
-export type RemoveIssueMutation = { __typename?: 'Mutation', removeIssue: boolean };
-
+export type RemoveIssueMutation = { __typename?: 'Mutation'; removeIssue: boolean };
 
 export const GetIssuesDocument = gql`
-    query GetIssues {
-  issues {
-    id
-    title
-    description
-    status
-    priority
-    assignee
-    due_date
-    created_at
-    updated_at
-    browser
-    reproducible
-    estimation
+  query GetIssues {
+    issues {
+      id
+      title
+      description
+      status
+      priority
+      assignee
+      due_date
+      created_at
+      updated_at
+      browser
+      reproducible
+      estimation
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useGetIssuesQuery__
@@ -156,37 +195,52 @@ export const GetIssuesDocument = gql`
  *   },
  * });
  */
-export function useGetIssuesQuery(baseOptions?: Apollo.QueryHookOptions<GetIssuesQuery, GetIssuesQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetIssuesQuery, GetIssuesQueryVariables>(GetIssuesDocument, options);
-      }
-export function useGetIssuesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetIssuesQuery, GetIssuesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetIssuesQuery, GetIssuesQueryVariables>(GetIssuesDocument, options);
-        }
-export function useGetIssuesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetIssuesQuery, GetIssuesQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetIssuesQuery, GetIssuesQueryVariables>(GetIssuesDocument, options);
-        }
+export function useGetIssuesQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetIssuesQuery, GetIssuesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetIssuesQuery, GetIssuesQueryVariables>(GetIssuesDocument, options);
+}
+export function useGetIssuesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetIssuesQuery, GetIssuesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetIssuesQuery, GetIssuesQueryVariables>(GetIssuesDocument, options);
+}
+export function useGetIssuesSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetIssuesQuery, GetIssuesQueryVariables>,
+) {
+  const options =
+    baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetIssuesQuery, GetIssuesQueryVariables>(
+    GetIssuesDocument,
+    options,
+  );
+}
 export type GetIssuesQueryHookResult = ReturnType<typeof useGetIssuesQuery>;
 export type GetIssuesLazyQueryHookResult = ReturnType<typeof useGetIssuesLazyQuery>;
 export type GetIssuesSuspenseQueryHookResult = ReturnType<typeof useGetIssuesSuspenseQuery>;
 export type GetIssuesQueryResult = Apollo.QueryResult<GetIssuesQuery, GetIssuesQueryVariables>;
 export const CreateIssueDocument = gql`
-    mutation CreateIssue($createIssueInput: CreateIssueInput!) {
-  createIssue(createIssueInput: $createIssueInput) {
-    title
-    description
-    status
-    priority
-    browser
-    reproducible
-    estimation
-    due_date
+  mutation CreateIssue($createIssueInput: CreateIssueInput!) {
+    createIssue(createIssueInput: $createIssueInput) {
+      title
+      description
+      status
+      priority
+      browser
+      reproducible
+      estimation
+      due_date
+    }
   }
-}
-    `;
-export type CreateIssueMutationFn = Apollo.MutationFunction<CreateIssueMutation, CreateIssueMutationVariables>;
+`;
+export type CreateIssueMutationFn = Apollo.MutationFunction<
+  CreateIssueMutation,
+  CreateIssueMutationVariables
+>;
 
 /**
  * __useCreateIssueMutation__
@@ -205,28 +259,39 @@ export type CreateIssueMutationFn = Apollo.MutationFunction<CreateIssueMutation,
  *   },
  * });
  */
-export function useCreateIssueMutation(baseOptions?: Apollo.MutationHookOptions<CreateIssueMutation, CreateIssueMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateIssueMutation, CreateIssueMutationVariables>(CreateIssueDocument, options);
-      }
+export function useCreateIssueMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateIssueMutation, CreateIssueMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateIssueMutation, CreateIssueMutationVariables>(
+    CreateIssueDocument,
+    options,
+  );
+}
 export type CreateIssueMutationHookResult = ReturnType<typeof useCreateIssueMutation>;
 export type CreateIssueMutationResult = Apollo.MutationResult<CreateIssueMutation>;
-export type CreateIssueMutationOptions = Apollo.BaseMutationOptions<CreateIssueMutation, CreateIssueMutationVariables>;
+export type CreateIssueMutationOptions = Apollo.BaseMutationOptions<
+  CreateIssueMutation,
+  CreateIssueMutationVariables
+>;
 export const UpdateIssueDocument = gql`
-    mutation UpdateIssue($id: String!, $updateIssueInput: UpdateIssueInput!) {
-  updateIssue(id: $id, updateIssueInput: $updateIssueInput) {
-    title
-    description
-    status
-    priority
-    browser
-    reproducible
-    estimation
-    due_date
+  mutation UpdateIssue($id: String!, $updateIssueInput: UpdateIssueInput!) {
+    updateIssue(id: $id, updateIssueInput: $updateIssueInput) {
+      title
+      description
+      status
+      priority
+      browser
+      reproducible
+      estimation
+      due_date
+    }
   }
-}
-    `;
-export type UpdateIssueMutationFn = Apollo.MutationFunction<UpdateIssueMutation, UpdateIssueMutationVariables>;
+`;
+export type UpdateIssueMutationFn = Apollo.MutationFunction<
+  UpdateIssueMutation,
+  UpdateIssueMutationVariables
+>;
 
 /**
  * __useUpdateIssueMutation__
@@ -246,19 +311,30 @@ export type UpdateIssueMutationFn = Apollo.MutationFunction<UpdateIssueMutation,
  *   },
  * });
  */
-export function useUpdateIssueMutation(baseOptions?: Apollo.MutationHookOptions<UpdateIssueMutation, UpdateIssueMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateIssueMutation, UpdateIssueMutationVariables>(UpdateIssueDocument, options);
-      }
+export function useUpdateIssueMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateIssueMutation, UpdateIssueMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateIssueMutation, UpdateIssueMutationVariables>(
+    UpdateIssueDocument,
+    options,
+  );
+}
 export type UpdateIssueMutationHookResult = ReturnType<typeof useUpdateIssueMutation>;
 export type UpdateIssueMutationResult = Apollo.MutationResult<UpdateIssueMutation>;
-export type UpdateIssueMutationOptions = Apollo.BaseMutationOptions<UpdateIssueMutation, UpdateIssueMutationVariables>;
+export type UpdateIssueMutationOptions = Apollo.BaseMutationOptions<
+  UpdateIssueMutation,
+  UpdateIssueMutationVariables
+>;
 export const RemoveIssueDocument = gql`
-    mutation RemoveIssue($id: String!) {
-  removeIssue(id: $id)
-}
-    `;
-export type RemoveIssueMutationFn = Apollo.MutationFunction<RemoveIssueMutation, RemoveIssueMutationVariables>;
+  mutation RemoveIssue($id: String!) {
+    removeIssue(id: $id)
+  }
+`;
+export type RemoveIssueMutationFn = Apollo.MutationFunction<
+  RemoveIssueMutation,
+  RemoveIssueMutationVariables
+>;
 
 /**
  * __useRemoveIssueMutation__
@@ -277,10 +353,18 @@ export type RemoveIssueMutationFn = Apollo.MutationFunction<RemoveIssueMutation,
  *   },
  * });
  */
-export function useRemoveIssueMutation(baseOptions?: Apollo.MutationHookOptions<RemoveIssueMutation, RemoveIssueMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RemoveIssueMutation, RemoveIssueMutationVariables>(RemoveIssueDocument, options);
-      }
+export function useRemoveIssueMutation(
+  baseOptions?: Apollo.MutationHookOptions<RemoveIssueMutation, RemoveIssueMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<RemoveIssueMutation, RemoveIssueMutationVariables>(
+    RemoveIssueDocument,
+    options,
+  );
+}
 export type RemoveIssueMutationHookResult = ReturnType<typeof useRemoveIssueMutation>;
 export type RemoveIssueMutationResult = Apollo.MutationResult<RemoveIssueMutation>;
-export type RemoveIssueMutationOptions = Apollo.BaseMutationOptions<RemoveIssueMutation, RemoveIssueMutationVariables>;
+export type RemoveIssueMutationOptions = Apollo.BaseMutationOptions<
+  RemoveIssueMutation,
+  RemoveIssueMutationVariables
+>;

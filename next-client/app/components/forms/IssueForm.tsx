@@ -7,11 +7,11 @@ import dayjs from 'dayjs';
 import { cloneDeep } from 'lodash';
 import { ContentState, EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import { Issue } from '@/app/generated/graphql';
 import { StyledForm, ButtonContainer } from './styles';
 import { IssueFormData, mockUsers } from '../../types/issue';
 import 'draft-js/dist/Draft.css';
 import { Button } from '../Button';
-import { Issue } from '@/app/generated/graphql';
 
 const Editor = dynamic(() => import('../Editor'), { ssr: false });
 
@@ -26,28 +26,37 @@ export const statusOptions = ['Open', 'In Progress', 'Resolved', 'Closed'];
 export const severityOptions = ['Low', 'Medium', 'High'];
 export const browserOptions = ['Chrome', 'Firefox', 'Safari', 'Edge', 'Other'];
 
-const IssueForm: React.FC<IssueFormProps> = ({
+function IssueForm({
   initialValues,
   onSubmit,
   onCancel,
   isLoading = false,
-}) => {
-  const [form] = Form.useForm();
+}: IssueFormProps): React.ReactElement {
+  const [form] = Form.useForm<IssueFormData>();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  let htmlToDraft = null;
-  if (typeof window === 'object') {
-    htmlToDraft = require('html-to-draftjs').default;
-  }
-
+  const [htmlToDraft, setHtmlToDraft] = useState<any>(null);
   useEffect(() => {
-    const initialHtml = '';
-    const blocksFromHtml = htmlToDraft(initialHtml);
-    const { contentBlocks, entityMap } = blocksFromHtml;
-    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
-    setEditorState(EditorState.createWithContent(contentState));
+    // Import html-to-draftjs dynamically to avoid SSR issues
+    const loadHtmlToDraft = async () => {
+      if (typeof window === 'object') {
+        const { default: lib } = await import('html-to-draftjs');
+        setHtmlToDraft(lib);
+      }
+    };
+    loadHtmlToDraft();
   }, []);
 
-  const handleSubmit = async (values: any) => {
+  useEffect(() => {
+    if (htmlToDraft) {
+      const initialHtml = '';
+      const blocksFromHtml = htmlToDraft(initialHtml);
+      const { contentBlocks, entityMap } = blocksFromHtml;
+      const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+      setEditorState(EditorState.createWithContent(contentState));
+    }
+  }, [htmlToDraft]);
+
+  const handleSubmit = async (values: IssueFormData) => {
     const clonedValues = cloneDeep(values);
     const formattedValues: IssueFormData = {
       ...clonedValues,
@@ -164,6 +173,6 @@ const IssueForm: React.FC<IssueFormProps> = ({
       </ButtonContainer>
     </StyledForm>
   );
-};
+}
 
 export default IssueForm;

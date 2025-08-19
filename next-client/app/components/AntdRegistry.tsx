@@ -15,6 +15,8 @@ export default function AntdRegistry({ children }: { children: React.ReactNode }
       return;
     }
     isServerInserted.current = true;
+    // We need to use dangerouslySetInnerHTML here as we're directly injecting CSS
+    // This is a special case for AntD's style injection
     return <style id='antd' dangerouslySetInnerHTML={{ __html: extractStyle(cache, true) }} />;
   });
 

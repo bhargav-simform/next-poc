@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Select, Space } from 'antd';
+import { Input, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { FilterContainer } from './styles';
 import { Status, Severity } from '../../types/issue';
@@ -12,11 +12,11 @@ interface FilterBarProps {
   onSeverityChange: (values: Severity[]) => void;
 }
 
-const FilterBar: React.FC<FilterBarProps> = ({
+function FilterBar({
   onSearchChange,
   onStatusChange,
   onSeverityChange,
-}) => {
+}: FilterBarProps): React.ReactElement {
   return (
     <FilterContainer>
       <Input
@@ -47,6 +47,6 @@ const FilterBar: React.FC<FilterBarProps> = ({
       </Select>
     </FilterContainer>
   );
-};
+}
 
 export default FilterBar;

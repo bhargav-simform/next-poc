@@ -5,7 +5,7 @@ import {
   useUpdateIssueMutation,
   CreateIssueInput,
   UpdateIssueInput,
-  useRemoveIssueMutation
+  useRemoveIssueMutation,
 } from '../generated/graphql';
 
 export const issueService = {
@@ -15,23 +15,25 @@ export const issueService = {
       issues: data?.issues || [],
       loading,
       error,
-      refetch
+      refetch,
     };
   },
 
   useCreateIssue: () => {
     const [createIssue, { loading }] = useCreateIssueMutation({
-      refetchQueries: [{ query: GetIssuesDocument }]
+      refetchQueries: [{ query: GetIssuesDocument }],
     });
 
     const create = async (input: CreateIssueInput) => {
       try {
         const response = await createIssue({
-          variables: { createIssueInput: input }
+          variables: { createIssueInput: input },
         });
         return response.data?.createIssue;
       } catch (error) {
+        /* eslint-disable no-console */
         console.error('Error creating issue:', error);
+        /* eslint-enable no-console */
         throw error;
       }
     };
@@ -41,17 +43,19 @@ export const issueService = {
 
   useUpdateIssue: () => {
     const [updateIssue, { loading }] = useUpdateIssueMutation({
-      refetchQueries: [{ query: GetIssuesDocument }]
+      refetchQueries: [{ query: GetIssuesDocument }],
     });
 
     const update = async (id: string, input: UpdateIssueInput) => {
       try {
         const response = await updateIssue({
-          variables: { id, updateIssueInput: input }
+          variables: { id, updateIssueInput: input },
         });
         return response.data?.updateIssue;
       } catch (error) {
+        /* eslint-disable no-console */
         console.error('Error updating issue:', error);
+        /* eslint-enable no-console */
         throw error;
       }
     };
@@ -61,21 +65,23 @@ export const issueService = {
 
   useRemoveIssue: () => {
     const [removeIssue, { loading }] = useRemoveIssueMutation({
-      refetchQueries: [{ query: GetIssuesDocument }]
+      refetchQueries: [{ query: GetIssuesDocument }],
     });
 
     const remove = async (id: string) => {
       try {
         const response = await removeIssue({
-          variables: { id }
+          variables: { id },
         });
         return response.data?.removeIssue;
       } catch (error) {
+        /* eslint-disable no-console */
         console.error('Error removing issue:', error);
+        /* eslint-enable no-console */
         throw error;
       }
     };
 
     return { remove, loading };
-  }
+  },
 };

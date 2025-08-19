@@ -1,4 +1,4 @@
-import { Issue } from "../generated/graphql";
+import { Issue } from '../generated/graphql';
 
 export type Status = 'Open' | 'In Progress' | 'Resolved' | 'Closed';
 export type Severity = 'Low' | 'Medium' | 'High';
@@ -17,5 +17,4 @@ export const mockUsers: User[] = [
   { id: '4', name: 'Sarah Wilson', email: 'sarah@example.com' },
 ];
 
-
-export interface IssueFormData extends Omit<Issue, 'id' | 'createdDate'> {}
+export type IssueFormData = Omit<Issue, 'id' | 'createdDate'>;

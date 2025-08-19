@@ -7,7 +7,7 @@ export const FormContainer = styled.div`
   padding: 24px;
 `;
 
-export const StyledForm = styled(Form)`
+export const StyledForm = styled(Form<any>)`
   .ant-form-item {
     margin-bottom: 24px;
   }
