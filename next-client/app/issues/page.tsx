@@ -94,6 +94,7 @@ export default function IssuesPage() {
   const handleDelete = async (id: string) => {
     try {
       await remove(id);
+      refetch();
       message.success('Issue deleted successfully');
       refetch();
     } catch (error) {
@@ -141,7 +142,7 @@ export default function IssuesPage() {
       title: 'Delete Issue',
       content: 'Are you sure you want to delete this issue?',
       onConfirm: () => {
-        localStorageService.deleteIssue(id);
+        handleDelete(id);
         message.success('Issue deleted successfully');
       },
     });
@@ -249,7 +250,7 @@ export default function IssuesPage() {
             type="text"
             danger
             icon={<DeleteOutlined />}
-            onClick={() => handleDelete(record.id)}
+            onClick={() => handleDeleteIssue(record.id)}
             loading={deleteLoading}
           />
         </Space>
