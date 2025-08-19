@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { Issue } from '../types/issue';
+import { Issue } from '../generated/graphql';
 
 const ISSUES_KEY = 'issues';
 

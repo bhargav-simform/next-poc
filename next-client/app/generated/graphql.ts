@@ -19,21 +19,35 @@ export type Scalars = {
 };
 
 export type CreateIssueInput = {
+  assignee: Scalars['String']['input'];
+  browser: Scalars['String']['input'];
+  created_at: Scalars['DateTime']['input'];
   description: Scalars['String']['input'];
-  priority: Scalars['String']['input'];
+  due_date: Scalars['DateTime']['input'];
+  estimation: Scalars['Float']['input'];
+  priority?: Scalars['String']['input'];
+  reproachable?: Scalars['Boolean']['input'];
+  severity: Scalars['String']['input'];
   status: Scalars['String']['input'];
   title: Scalars['String']['input'];
+  updated_at: Scalars['DateTime']['input'];
 };
 
 export type Issue = {
   __typename?: 'Issue';
-  createdAt: Scalars['DateTime']['output'];
+  assignee: Scalars['String']['output'];
+  browser: Scalars['String']['output'];
+  created_at: Scalars['DateTime']['output'];
   description: Scalars['String']['output'];
+  due_date: Scalars['DateTime']['output'];
+  estimation: Scalars['Float']['output'];
   id: Scalars['ID']['output'];
   priority: Scalars['String']['output'];
+  reproachable: Scalars['Boolean']['output'];
+  severity: Scalars['String']['output'];
   status: Scalars['String']['output'];
   title: Scalars['String']['output'];
-  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  updated_at: Scalars['DateTime']['output'];
 };
 
 export type Mutation = {
@@ -71,24 +85,32 @@ export type QueryIssueArgs = {
 };
 
 export type UpdateIssueInput = {
+  assignee?: InputMaybe<Scalars['String']['input']>;
+  browser?: InputMaybe<Scalars['String']['input']>;
+  created_date?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
+  due_date?: InputMaybe<Scalars['DateTime']['input']>;
+  estimation?: InputMaybe<Scalars['Float']['input']>;
   id: Scalars['String']['input'];
   priority?: InputMaybe<Scalars['String']['input']>;
+  reproachable?: InputMaybe<Scalars['Boolean']['input']>;
+  severity?: InputMaybe<Scalars['String']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
+  updated_date?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type GetIssuesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetIssuesQuery = { __typename?: 'Query', issues: Array<{ __typename?: 'Issue', id: string, title: string, description: string, status: string, priority: string, createdAt: any, updatedAt?: any | null }> };
+export type GetIssuesQuery = { __typename?: 'Query', issues: Array<{ __typename?: 'Issue', id: string, title: string, description: string, status: string, priority: string, assignee: string, due_date: any, severity: string, created_at: any, updated_at: any, browser: string, reproachable: boolean, estimation: number }> };
 
 export type CreateIssueMutationVariables = Exact<{
   createIssueInput: CreateIssueInput;
 }>;
 
 
-export type CreateIssueMutation = { __typename?: 'Mutation', createIssue: { __typename?: 'Issue', id: string, title: string, description: string, status: string, priority: string, createdAt: any } };
+export type CreateIssueMutation = { __typename?: 'Mutation', createIssue: { __typename?: 'Issue', id: string, title: string, description: string, status: string, priority: string, created_at: any, updated_at: any, browser: string, reproachable: boolean, estimation: number, due_date: any, severity: string } };
 
 export type UpdateIssueMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -96,7 +118,7 @@ export type UpdateIssueMutationVariables = Exact<{
 }>;
 
 
-export type UpdateIssueMutation = { __typename?: 'Mutation', updateIssue: { __typename?: 'Issue', id: string, title: string, description: string, status: string, priority: string, updatedAt?: any | null } };
+export type UpdateIssueMutation = { __typename?: 'Mutation', updateIssue: { __typename?: 'Issue', id: string, title: string, description: string, status: string, priority: string, created_at: any, updated_at: any, browser: string, reproachable: boolean, estimation: number, due_date: any, severity: string } };
 
 export type RemoveIssueMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -114,8 +136,14 @@ export const GetIssuesDocument = gql`
     description
     status
     priority
-    createdAt
-    updatedAt
+    assignee
+    due_date
+    severity
+    created_at
+    updated_at
+    browser
+    reproachable
+    estimation
   }
 }
     `;
@@ -159,7 +187,13 @@ export const CreateIssueDocument = gql`
     description
     status
     priority
-    createdAt
+    created_at
+    updated_at
+    browser
+    reproachable
+    estimation
+    due_date
+    severity
   }
 }
     `;
@@ -197,7 +231,13 @@ export const UpdateIssueDocument = gql`
     description
     status
     priority
-    updatedAt
+    created_at
+    updated_at
+    browser
+    reproachable
+    estimation
+    due_date
+    severity
   }
 }
     `;

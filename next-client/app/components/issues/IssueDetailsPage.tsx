@@ -6,10 +6,11 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { Issue, User, mockUsers, Status, Severity } from '@/app/types/issue';
+import { User, mockUsers, Status, Severity } from '@/app/types/issue';
 import { localStorageService } from '@/app/services/localStorageService';
 import showConfirmationModal from '@/app/components/modals/ConfirmationModal';
 import { Button } from '@/app/components/Button';
+import { Issue } from '@/app/generated/graphql';
 
 const PageContainer = styled.div`
   max-width: 800px;
@@ -81,7 +82,7 @@ export default function IssueDetailsPage({ issueId }: Props) {
     });
   };
 
-  const getStatusColor = (status: Status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case 'Open':
         return 'blue';
@@ -94,7 +95,7 @@ export default function IssueDetailsPage({ issueId }: Props) {
     }
   };
 
-  const getSeverityColor = (severity: Severity) => {
+  const getSeverityColor = (severity: string) => {
     switch (severity) {
       case 'High':
         return 'red';
@@ -124,7 +125,7 @@ export default function IssueDetailsPage({ issueId }: Props) {
     return null;
   }
 
-  const assignee = mockUsers.find((user: User) => user.id === issue.assignee);
+  const assignee = mockUsers.find((user: User) => user.id === issue?.assignee);
 
   return (
     <PageContainer>
@@ -148,7 +149,7 @@ export default function IssueDetailsPage({ issueId }: Props) {
           <Descriptions.Item label='Title'>{issue.title}</Descriptions.Item>
           <Descriptions.Item label='Assignee'>{assignee?.name || 'Unassigned'}</Descriptions.Item>
           <Descriptions.Item label='Due Date'>
-            {new Date(issue.dueDate).toLocaleDateString()}
+            {new Date(issue.due_date).toLocaleDateString()}
           </Descriptions.Item>
           <Descriptions.Item label='Severity'>
             <Tag color={getSeverityColor(issue.severity)}>{issue.severity}</Tag>
@@ -157,12 +158,12 @@ export default function IssueDetailsPage({ issueId }: Props) {
             <Tag color={getStatusColor(issue.status)}>{issue.status}</Tag>
           </Descriptions.Item>
           <Descriptions.Item label='Browser'>{issue.browser}</Descriptions.Item>
-          <Descriptions.Item label='Reproducible'>
-            {issue.reproducible ? 'Yes' : 'No'}
+          <Descriptions.Item label='Reproachable'>
+            {issue.reproachable ? 'Yes' : 'No'}
           </Descriptions.Item>
           <Descriptions.Item label='Estimation'>{issue.estimation} hours</Descriptions.Item>
           <Descriptions.Item label='Created Date'>
-            {new Date(issue.createdDate).toLocaleString()}
+            {new Date(issue.created_at).toLocaleString()}
           </Descriptions.Item>
         </Descriptions>
 

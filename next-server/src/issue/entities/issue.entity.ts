@@ -14,12 +14,30 @@ export class Issue {
   @Field()
   status: string;
 
-  @Field()
+  @Field({ defaultValue: 'Low' })
   priority: string;
 
   @Field()
-  createdAt: Date;
+  assignee: string;
 
-  @Field({ nullable: true })
-  updatedAt?: Date;
+  @Field()
+  due_date: Date;
+
+  @Field()
+  severity: string;
+
+  @Field()
+  created_at: Date;
+
+  @Field()
+  updated_at: Date;
+
+  @Field()
+  browser: string;
+
+  @Field({ defaultValue: true })
+  reproachable: boolean;
+
+  @Field()
+  estimation: number;
 }

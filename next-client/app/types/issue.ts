@@ -1,3 +1,5 @@
+import { Issue } from "../generated/graphql";
+
 export type Status = 'Open' | 'In Progress' | 'Resolved' | 'Closed';
 export type Severity = 'Low' | 'Medium' | 'High';
 export type Browser = 'Chrome' | 'Firefox' | 'Safari' | 'Edge' | 'Other';
@@ -15,18 +17,5 @@ export const mockUsers: User[] = [
   { id: '4', name: 'Sarah Wilson', email: 'sarah@example.com' },
 ];
 
-export interface Issue {
-  id: string;
-  title: string;
-  description: string;
-  assignee: string;
-  dueDate: string;
-  severity: Severity;
-  browser: Browser | string;
-  reproducible: boolean;
-  estimation: number;
-  status: Status;
-  createdDate: string;
-}
 
 export interface IssueFormData extends Omit<Issue, 'id' | 'createdDate'> {}

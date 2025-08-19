@@ -8,8 +8,14 @@ export const GET_ISSUES = gql`
       description
       status
       priority
-      createdAt
-      updatedAt
+      assignee
+      due_date
+      severity
+      created_at
+      updated_at
+      browser
+      reproachable
+      estimation
     }
   }
 `;
@@ -22,7 +28,13 @@ export const CREATE_ISSUE = gql`
       description
       status
       priority
-      createdAt
+      created_at
+      updated_at
+      browser
+      reproachable
+      estimation
+      due_date
+      severity
     }
   }
 `;
@@ -35,7 +47,13 @@ export const UPDATE_ISSUE = gql`
       description
       status
       priority
-      updatedAt
+      created_at
+      updated_at
+      browser
+      reproachable
+      estimation
+      due_date
+      severity
     }
   }
 `;

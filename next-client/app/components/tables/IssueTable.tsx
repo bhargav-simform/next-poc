@@ -1,13 +1,14 @@
 'use client';
 
 import React from 'react';
-import { Table, Tag, Space, message } from 'antd';
+import { Table, Tag, Space, message, TableColumnsType } from 'antd';
 import { EditOutlined, DeleteOutlined, EyeOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Status, Severity, Issue, mockUsers } from '../../types/issue';
+import { Status, Severity, mockUsers } from '../../types/issue';
 import { Button } from '../Button';
 import { issueService } from '../../services/issueService';
+import { Issue } from '@/app/generated/graphql';
 
 const TableContainer = styled.div`
   .ant-table-wrapper {
@@ -59,17 +60,19 @@ const getSeverityColor = (severity: Severity): string => {
 };
 
 const IssueTable: React.FC<IssueTableProps> = ({ data, loading, onDelete, pagination  }) => {
-  // const { issues, loading, error, refetch } = issueService.useIssues();
   const { remove, loading: deleteLoading } = issueService.useRemoveIssue();
+  const { issues, loading: issuesLoading, error: issuesError } = issueService.useIssues();
 
   const getAssigneeName = (id: string) => {
     const user = mockUsers.find((u) => u.id === id);
     return user ? user.name : 'Unassigned';
   };
-  // if (error) {
-  //   message.error('Failed to load issues');
-  //   return null;
-  // }
+
+
+  if (issuesError) {
+    message.error('Failed to load issues');
+    return null;
+  }
 
   const handleDelete = async (id: string) => {
     try {
@@ -81,7 +84,7 @@ const IssueTable: React.FC<IssueTableProps> = ({ data, loading, onDelete, pagina
     }
   };
 
-  const columns = [
+  const columns: TableColumnsType<Issue> = [
     {
       title: 'ID',
       dataIndex: 'id',
@@ -161,9 +164,9 @@ const IssueTable: React.FC<IssueTableProps> = ({ data, loading, onDelete, pagina
     <TableContainer>
       <Table
         columns={columns}
-        dataSource={data}
+        dataSource={issues}
         rowKey='id'
-        loading={loading}
+        loading={loading || issuesLoading}
         pagination={pagination}
       />
     </TableContainer>
