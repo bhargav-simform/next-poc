@@ -6,6 +6,7 @@ import {
   CreateIssueInput,
   UpdateIssueInput,
   useRemoveIssueMutation,
+  useGetIssueQuery,
 } from '../generated/graphql';
 
 export const issueService = {
@@ -13,6 +14,18 @@ export const issueService = {
     const { data, loading, error, refetch } = useGetIssuesQuery();
     return {
       issues: data?.issues || [],
+      loading,
+      error,
+      refetch,
+    };
+  },
+
+  useIssue: (id: string) => {
+    const { data, loading, error, refetch } = useGetIssueQuery({
+      variables: { id },
+    });
+    return {
+      issue: data?.issue || null,
       loading,
       error,
       refetch,

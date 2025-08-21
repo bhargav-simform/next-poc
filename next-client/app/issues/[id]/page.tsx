@@ -1,7 +1,11 @@
 import IssueDetailsPage from '@/app/components/issues/IssueDetailsPage';
 
-export default function Page({ params }: { params: { id: string } }) {
-  const issueId = params.id;
+export default async function Page({
+  params,
+}: {
+  params: { id: string };
+}): Promise<React.ReactElement> {
+  const { id: issueId } = params;
 
   return <IssueDetailsPage issueId={issueId} />;
 }

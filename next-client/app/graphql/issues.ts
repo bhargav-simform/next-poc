@@ -54,3 +54,22 @@ export const DELETE_ISSUE = gql`
     removeIssue(id: $id)
   }
 `;
+
+export const GET_ISSUE = gql`
+  query GetIssue($id: String!) {
+    issue(id: $id) {
+      id
+      title
+      description
+      status
+      priority
+      assignee
+      due_date
+      created_at
+      updated_at
+      browser
+      reproducible
+      estimation
+    }
+  }
+`;

@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     styledComponents: true,
   },
   devIndicators: {
-    position: 'bottom-right',
+    position: 'bottom-left',
   }
 };
 

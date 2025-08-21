@@ -6,7 +6,7 @@ import type Entity from '@ant-design/cssinjs/es/Cache';
 import { ConfigProvider } from 'antd';
 import { useServerInsertedHTML } from 'next/navigation';
 
-export default function AntdRegistry({ children }: { children: React.ReactNode }) {
+export default function AntdRegistry({ children }: Readonly<{ children: React.ReactNode }>) {
   const cache = React.useMemo<Entity>(() => createCache(), []);
   const isServerInserted = React.useRef<boolean>(false);
 

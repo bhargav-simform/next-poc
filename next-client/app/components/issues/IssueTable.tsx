@@ -26,7 +26,6 @@ export function IssueTable({
   onDelete,
   deleteLoading,
 }: Readonly<IssueTableProps>): React.ReactElement {
-  // Remove console.log to fix linting issue
   const columns: TableColumnsType<Issue> = [
     {
       title: 'Title',

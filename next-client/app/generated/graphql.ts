@@ -161,6 +161,29 @@ export type RemoveIssueMutationVariables = Exact<{
 
 export type RemoveIssueMutation = { __typename?: 'Mutation'; removeIssue: boolean };
 
+export type GetIssueQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+export type GetIssueQuery = {
+  __typename?: 'Query';
+  issue: {
+    __typename?: 'Issue';
+    id: string;
+    title: string;
+    description: string;
+    status: string;
+    priority: string;
+    assignee: string;
+    due_date?: any | null;
+    created_at: any;
+    updated_at: any;
+    browser: string;
+    reproducible: boolean;
+    estimation: number;
+  };
+};
+
 export const GetIssuesDocument = gql`
   query GetIssues {
     issues {
@@ -368,3 +391,64 @@ export type RemoveIssueMutationOptions = Apollo.BaseMutationOptions<
   RemoveIssueMutation,
   RemoveIssueMutationVariables
 >;
+export const GetIssueDocument = gql`
+  query GetIssue($id: String!) {
+    issue(id: $id) {
+      id
+      title
+      description
+      status
+      priority
+      assignee
+      due_date
+      created_at
+      updated_at
+      browser
+      reproducible
+      estimation
+    }
+  }
+`;
+
+/**
+ * __useGetIssueQuery__
+ *
+ * To run a query within a React component, call `useGetIssueQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetIssueQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetIssueQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetIssueQuery(
+  baseOptions: Apollo.QueryHookOptions<GetIssueQuery, GetIssueQueryVariables> &
+    ({ variables: GetIssueQueryVariables; skip?: boolean } | { skip: boolean }),
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetIssueQuery, GetIssueQueryVariables>(GetIssueDocument, options);
+}
+export function useGetIssueLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetIssueQuery, GetIssueQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetIssueQuery, GetIssueQueryVariables>(GetIssueDocument, options);
+}
+export function useGetIssueSuspenseQuery(
+  baseOptions?:
+    | Apollo.SkipToken
+    | Apollo.SuspenseQueryHookOptions<GetIssueQuery, GetIssueQueryVariables>,
+) {
+  const options =
+    baseOptions === Apollo.skipToken ? baseOptions : { ...defaultOptions, ...baseOptions };
+  return Apollo.useSuspenseQuery<GetIssueQuery, GetIssueQueryVariables>(GetIssueDocument, options);
+}
+export type GetIssueQueryHookResult = ReturnType<typeof useGetIssueQuery>;
+export type GetIssueLazyQueryHookResult = ReturnType<typeof useGetIssueLazyQuery>;
+export type GetIssueSuspenseQueryHookResult = ReturnType<typeof useGetIssueSuspenseQuery>;
+export type GetIssueQueryResult = Apollo.QueryResult<GetIssueQuery, GetIssueQueryVariables>;

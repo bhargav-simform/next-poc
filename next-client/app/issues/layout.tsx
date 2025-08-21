@@ -9,6 +9,6 @@ const Layout = styled.div`
   background-color: #f5f5f5;
 `;
 
-export default function IssuesLayout({ children }: { children: React.ReactNode }) {
+export default function IssuesLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <Layout>{children}</Layout>;
 }

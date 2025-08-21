@@ -17,7 +17,7 @@ export class CreateIssueInput {
   @Field()
   assignee: string;
 
-  @Field(() => GraphQLISODateTime, {
+  @Field(() => Date, {
     nullable: true,
     description: 'Due Date',
   })
@@ -51,7 +51,7 @@ export class UpdateIssueInput {
   @Field({ nullable: true })
   assignee?: string;
 
-  @Field(() => GraphQLISODateTime, {
+  @Field(() => Date, {
     nullable: true,
     description: 'Due Date',
   })

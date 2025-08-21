@@ -1,16 +1,15 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { message, Card, Descriptions, Tag, Space, Skeleton } from 'antd';
+import React from 'react';
+import { Card, Descriptions, Tag, Space, Skeleton } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { User, mockUsers } from '@/app/types/issue';
-import { localStorageService } from '@/app/services/localStorageService';
 import showConfirmationModal from '@/app/components/modals/ConfirmationModal';
 import { Button } from '@/app/components/Button';
-import { Issue } from '@/app/generated/graphql';
+import { issueService } from '@/app/services/issueService';
+import { useIssueManagement } from '@/app/hooks/useIssueManagement';
+import IssueDrawer from '../drawers/IssueDrawer';
 
 const PageContainer = styled.div`
   max-width: 800px;
@@ -49,35 +48,27 @@ interface Props {
   issueId: string;
 }
 
-export default function IssueDetailsPage({ issueId }: Props) {
+export default function IssueDetailsPage({ issueId }: Readonly<Props>) {
   const router = useRouter();
-  const [issue, setIssue] = useState<Issue | null>(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadIssue = () => {
-      const issues = localStorageService.getIssues();
-      const foundIssue = issues.find((i: Issue) => i.id === issueId);
-      if (foundIssue) {
-        setIssue(foundIssue);
-      } else {
-        message.error('Issue not found');
-        router.push('/issues');
-      }
-      setLoading(false);
-    };
-
-    loadIssue();
-  }, [issueId, router]);
+  const { issue, loading } = issueService.useIssue(issueId);
+  const {
+    updateLoading,
+    isModalVisible,
+    setEditingIssue,
+    setIsModalVisible,
+    handleDelete: handleDeleteIssue,
+    handleUpdateIssue,
+  } = useIssueManagement();
 
   const handleDelete = () => {
     showConfirmationModal({
       title: 'Delete Issue',
       content: 'Are you sure you want to delete this issue?',
       onConfirm: () => {
-        localStorageService.deleteIssue(issueId);
-        message.success('Issue deleted successfully');
-        router.push('/issues');
+        handleDeleteIssue(issueId).then(() => {
+          router.push('/issues');
+        });
       },
     });
   };
@@ -125,18 +116,21 @@ export default function IssueDetailsPage({ issueId }: Props) {
     return null;
   }
 
-  const assignee = mockUsers.find((user: User) => user.id === issue?.assignee);
-
   return (
     <PageContainer>
       <Header>
         <Title>Issue Details</Title>
         <Space>
-          <Link href={`/issues/${issue.id}/edit`} passHref>
-            <Button icon={<EditOutlined />} type='primary'>
-              Edit
-            </Button>
-          </Link>
+          <Button
+            icon={<EditOutlined />}
+            type='primary'
+            onClick={() => {
+              setIsModalVisible(true);
+              setEditingIssue(issue);
+            }}
+          >
+            Edit
+          </Button>
           <Button danger icon={<DeleteOutlined />} onClick={handleDelete}>
             Delete
           </Button>
@@ -147,7 +141,7 @@ export default function IssueDetailsPage({ issueId }: Props) {
         <Descriptions column={1} bordered>
           <Descriptions.Item label='ID'>{issue.id}</Descriptions.Item>
           <Descriptions.Item label='Title'>{issue.title}</Descriptions.Item>
-          <Descriptions.Item label='Assignee'>{assignee?.name || 'Unassigned'}</Descriptions.Item>
+          <Descriptions.Item label='Assignee'>{issue.assignee || 'Unassigned'}</Descriptions.Item>
           <Descriptions.Item label='Due Date'>
             {new Date(issue.due_date).toLocaleDateString()}
           </Descriptions.Item>
@@ -172,6 +166,18 @@ export default function IssueDetailsPage({ issueId }: Props) {
           <div dangerouslySetInnerHTML={{ __html: issue.description }} />
         </Description>
       </StyledCard>
+      {isModalVisible && issue && (
+        <IssueDrawer
+          title='Edit Issue'
+          initialValues={issue || undefined}
+          open={isModalVisible}
+          isLoading={updateLoading}
+          onClose={() => {
+            setIsModalVisible(false);
+          }}
+          onSubmit={handleUpdateIssue}
+        />
+      )}
     </PageContainer>
   );
 }

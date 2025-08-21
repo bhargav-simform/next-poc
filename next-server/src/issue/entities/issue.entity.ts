@@ -1,4 +1,4 @@
-import { Field, GraphQLISODateTime, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class Issue {
@@ -20,13 +20,13 @@ export class Issue {
   @Field()
   assignee: string;
 
-  @Field(() => GraphQLISODateTime, { nullable: true })
+  @Field(() => Date, { nullable: true })
   due_date: Date;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => Date)
   created_at: Date;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => Date)
   updated_at: Date;
 
   @Field()
