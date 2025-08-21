@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   compiler: {
     styledComponents: true,
   },
+  devIndicators: {
+    position: 'bottom-right',
+  }
 };
 
 export default nextConfig;

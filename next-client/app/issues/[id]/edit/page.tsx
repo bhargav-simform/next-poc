@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { message } from 'antd';
 import { useRouter } from 'next/navigation';
-import { Issue, IssueFormData } from '@/app/types/issue';
+import { IssueFormData } from '@/app/types/issue';
 import { localStorageService } from '@/app/services/localStorageService';
 import IssueDrawer from '@/app/components/drawers/IssueDrawer';
+import { Issue } from '@/app/generated/graphql';
 
 interface Props {
   params: {
@@ -41,7 +42,7 @@ export default function EditIssuePage({ params }: Props) {
       const updatedIssue = {
         ...values,
         id: params.id,
-        createdDate: issue!.createdDate,
+        createdDate: issue!.created_at,
       };
       localStorageService.updateIssue(updatedIssue);
       message.success('Issue updated successfully');
@@ -68,8 +69,9 @@ export default function EditIssuePage({ params }: Props) {
       initialValues={issue}
       onSubmit={handleSubmit}
       onClose={() => router.push('/issues')}
-      isModalVisible
       isLoading={isSubmitting}
+      open
+      title='Edit Issue'
     />
   );
 }

@@ -25,7 +25,7 @@ export function IssueTable({
   onEdit,
   onDelete,
   deleteLoading,
-}: IssueTableProps): React.ReactElement {
+}: Readonly<IssueTableProps>): React.ReactElement {
   // Remove console.log to fix linting issue
   const columns: TableColumnsType<Issue> = [
     {
@@ -67,7 +67,7 @@ export function IssueTable({
     {
       title: 'Action',
       key: 'action',
-      render: (_: any, record: Issue) => (
+      render: (_: unknown, record: Issue) => (
         <Space size='middle'>
           <Link href={`/issues/${record.id}`}>
             <Button type='text' icon={<EyeOutlined />} />
