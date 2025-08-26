@@ -1,4 +1,4 @@
-import { InputType, Field, GraphQLISODateTime } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
  
 @InputType()
 export class CreateIssueInput {
