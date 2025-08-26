@@ -5,7 +5,7 @@ import { useActionState } from 'react';
 // import Form from 'next/form'
 
 export default function NextForm() {
-  const [state, formAction, _] = useActionState(
+  const [state, formAction] = useActionState(
     async (_prevState: { success: boolean }, formData: FormData) => {
       return myAction(formData);
     },

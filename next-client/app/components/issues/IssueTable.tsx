@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import { Space, Table, TableColumnsType, Tag } from 'antd';
+import { Space, Table, Tag } from 'antd';
+import type { TableColumnsType } from 'antd';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import { Issue } from '../../generated/graphql';
-import { Status, Severity } from '../../types/issue';
+import type { Issue } from '../../generated/graphql';
+import type { Status, Severity } from '../../types/issue';
 import { Button } from '../Button';
 import { getStatusColor, getSeverityColor, getAssigneeName } from '../../utils/issueUtils';
 

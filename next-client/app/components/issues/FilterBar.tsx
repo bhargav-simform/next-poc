@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Input, Select } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { FilterContainer } from './styles';
-import { Status, Severity } from '../../types/issue';
+import type { Status, Severity } from '../../types/issue';
 
 const { Option } = Select;
 
@@ -16,7 +17,7 @@ function FilterBar({
   onSearchChange,
   onStatusChange,
   onSeverityChange,
-}: FilterBarProps): React.ReactElement {
+}: Readonly<FilterBarProps>): React.ReactElement {
   return (
     <FilterContainer>
       <Input

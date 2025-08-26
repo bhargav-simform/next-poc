@@ -1,24 +1,16 @@
 'use client';
 
 import '@ant-design/v5-patch-for-react-19';
-import {
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { ConfigProvider } from 'antd';
-import { themes } from '../config/variable';
+import type { themes } from '../config/variable';
 import { getAntTheme, getComponent } from '../config/ThemeVariable';
 
 type ThemeContextType = [keyof typeof themes, Dispatch<SetStateAction<keyof typeof themes>>];
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
-export function ThemeProvider({ children }: PropsWithChildren) {
+export function ThemeProvider({ children }: Readonly<PropsWithChildren>) {
   const [themeColor, setThemeColor] = useState<keyof typeof themes>('default');
   const value = useMemo<ThemeContextType>(() => [themeColor, setThemeColor], [themeColor]);
   useEffect(() => {

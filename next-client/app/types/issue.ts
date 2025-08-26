@@ -1,4 +1,4 @@
-import { Issue } from '../generated/graphql';
+import type { Issue } from '../generated/graphql';
 
 export type Status = 'Open' | 'In Progress' | 'Resolved' | 'Closed';
 export type Severity = 'Low' | 'Medium' | 'High';

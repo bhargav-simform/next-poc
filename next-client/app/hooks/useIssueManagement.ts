@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { message } from 'antd';
 import { cloneDeep } from 'lodash';
 import { issueService } from '../services/issueService';
-import { CreateIssueInput, Issue, UpdateIssueInput } from '../generated/graphql';
-import { IssueFormData } from '../types/issue';
+import type { CreateIssueInput, Issue, UpdateIssueInput } from '../generated/graphql';
+import type { IssueFormData } from '../types/issue';
 
 export const useIssueManagement = () => {
   const [filteredIssues, setFilteredIssues] = useState<Issue[]>([]);
@@ -46,8 +46,12 @@ export const useIssueManagement = () => {
       await remove(id);
       refetch();
       message.success('Issue deleted successfully');
-    } catch (_) {
-      message.error('Failed to delete issue');
+    } catch (e) {
+      if (e instanceof Error) {
+        message.error(`Failed to delete issue: ${e.message}`);
+      } else {
+        message.error('Failed to delete issue: Unknown error');
+      }
     }
   };
 
@@ -59,8 +63,12 @@ export const useIssueManagement = () => {
       await create(newIssue);
       setIsModalVisible(false);
       message.success('Issue created successfully');
-    } catch (_) {
-      message.error('Failed to create issue');
+    } catch (e) {
+      if (e instanceof Error) {
+        message.error(`Failed to create issue: ${e.message}`);
+      } else {
+        message.error('Failed to create issue: Unknown error');
+      }
     }
   };
 
@@ -79,8 +87,12 @@ export const useIssueManagement = () => {
         message.success('Issue updated successfully');
         setEditingIssue(null);
         setIsModalVisible(false);
-      } catch (_) {
-        message.error('Failed to update issue');
+      } catch (e) {
+        if (e instanceof Error) {
+          message.error(`Failed to update issue: ${e.message}`);
+        } else {
+          message.error('Failed to update issue: Unknown error');
+        }
       }
     }
   };

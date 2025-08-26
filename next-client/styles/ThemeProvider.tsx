@@ -1,5 +1,6 @@
-"use client";
-import React, { ReactNode, useState } from 'react';
+'use client';
+import type { ReactNode } from 'react';
+import React from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { ConfigProvider } from 'antd';
 import { appTheme, antdTheme } from './theme';

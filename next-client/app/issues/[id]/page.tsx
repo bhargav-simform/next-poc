@@ -1,3 +1,4 @@
+import React from 'react';
 import IssueDetailsPage from '@/app/components/issues/IssueDetailsPage';
 import { after } from 'next/server';
 

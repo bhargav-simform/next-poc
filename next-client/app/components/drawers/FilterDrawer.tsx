@@ -2,7 +2,8 @@ import React from 'react';
 import { Drawer, Form, Select, DatePicker, Switch } from 'antd';
 import styled from 'styled-components';
 import { cloneDeep } from 'lodash';
-import { Status, mockUsers } from '../../types/issue';
+import { mockUsers } from '../../types/issue';
+import type { Status } from '../../types/issue';
 import { Button } from '../Button';
 
 const { RangePicker } = DatePicker;
@@ -35,11 +36,12 @@ interface FilterSubmitValues extends Omit<FilterValues, 'dateRange'> {
 interface FilterDrawerProps {
   open: boolean;
   onClose: () => void;
+  // eslint-disable-next-line no-unused-vars
   onFilter: (values: FilterValues) => void;
   currentFilters?: FilterValues;
 }
 
-function FilterDrawer({ open, onClose, onFilter, currentFilters }: FilterDrawerProps) {
+function FilterDrawer({ open, onClose, onFilter, currentFilters }: Readonly<FilterDrawerProps>) {
   const [form] = Form.useForm<FilterValues>();
 
   const handleFilter = (values: FilterValues) => {

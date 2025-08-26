@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 // @ts-nocheck
 import { createGlobalStyle } from 'styled-components';
 import {

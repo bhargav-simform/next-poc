@@ -1,8 +1,9 @@
-import type { Metadata } from 'next';
+import React from 'react';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import '@ant-design/v5-patch-for-react-19';
 import AntdRegistry from './components/AntdRegistry';
+import type { Metadata } from 'next';
 import ErrorBoundary from './context/ErrorBoundary';
 import ClientProviders from './components/ClientProviders';
 

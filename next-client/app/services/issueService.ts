@@ -1,10 +1,10 @@
+import type { CreateIssueInput, UpdateIssueInput } from '../generated/graphql';
+
 import {
   GetIssuesDocument,
   useGetIssuesQuery,
   useCreateIssueMutation,
   useUpdateIssueMutation,
-  CreateIssueInput,
-  UpdateIssueInput,
   useRemoveIssueMutation,
   useGetIssueQuery,
 } from '../generated/graphql';
@@ -44,9 +44,8 @@ export const issueService = {
         });
         return response.data?.createIssue;
       } catch (error) {
-        /* eslint-disable no-console */
         console.error('Error creating issue:', error);
-        /* eslint-enable no-console */
+
         throw error;
       }
     };
@@ -66,9 +65,8 @@ export const issueService = {
         });
         return response.data?.updateIssue;
       } catch (error) {
-        /* eslint-disable no-console */
         console.error('Error updating issue:', error);
-        /* eslint-enable no-console */
+
         throw error;
       }
     };
@@ -88,9 +86,8 @@ export const issueService = {
         });
         return response.data?.removeIssue;
       } catch (error) {
-        /* eslint-disable no-console */
         console.error('Error removing issue:', error);
-        /* eslint-enable no-console */
+
         throw error;
       }
     };

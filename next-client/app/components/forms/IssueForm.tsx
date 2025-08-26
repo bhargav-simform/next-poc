@@ -7,9 +7,10 @@ import dayjs from 'dayjs';
 import { cloneDeep } from 'lodash';
 import { ContentState, EditorState, convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import { Issue } from '@/app/generated/graphql';
+import type { Issue } from '@/app/generated/graphql';
+import type { IssueFormData } from '../../types/issue';
 import { StyledForm, ButtonContainer } from './styles';
-import { IssueFormData, mockUsers } from '../../types/issue';
+import { mockUsers } from '../../types/issue';
 import 'draft-js/dist/Draft.css';
 import { Button } from '../Button';
 
@@ -17,6 +18,7 @@ const Editor = dynamic(() => import('../Editor'), { ssr: false });
 
 interface IssueFormProps {
   initialValues?: Issue | IssueFormData;
+  // eslint-disable-next-line no-unused-vars
   onSubmit: (values: IssueFormData) => void;
   onCancel: () => void;
   isLoading?: boolean;

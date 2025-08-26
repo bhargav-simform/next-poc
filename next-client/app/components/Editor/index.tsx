@@ -1,13 +1,18 @@
 import { Editor as WysiwygEditor } from 'react-draft-wysiwyg';
 import { ContentState, EditorState } from 'draft-js';
+import type { EditorState as EditorStateType } from 'draft-js';
 import { CharacterCounter, EditorStyle } from './index.style';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import 'draft-js/dist/Draft.css';
 
 const commentEditorCharacterLimit = 300;
+
+// eslint-disable-next-line no-unused-vars
+type EditorChangeHandler = (editorState: EditorStateType) => void;
+
 interface EditorProps {
   editorState: EditorState;
-  handleEditorStateChange: (editorState: EditorState) => void;
+  handleEditorStateChange: EditorChangeHandler;
   readOnly?: boolean;
   placeholder?: string;
 }
@@ -17,7 +22,7 @@ function Editor({
   handleEditorStateChange,
   readOnly = false,
   placeholder = 'Write something...',
-}: EditorProps) {
+}: Readonly<EditorProps>) {
   const getTextLength = () => editorState.getCurrentContent().getPlainText('').length;
 
   const handlePastedText = (text: string) => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { ConfigProvider } from 'antd';
 import { StyleProvider } from '@ant-design/cssinjs';

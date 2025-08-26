@@ -1,6 +1,7 @@
-import { Status, Severity, mockUsers } from '../types/issue';
+import type { Status, Severity } from '../types/issue';
+import { mockUsers } from '../types/issue';
 
-import { Issue } from '../generated/graphql';
+import type { Issue } from '../generated/graphql';
 
 export const getStatusColor = (status: Status): string => {
   switch (status) {

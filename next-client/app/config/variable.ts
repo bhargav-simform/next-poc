@@ -1,79 +1,78 @@
-/* eslint-disable */
 interface ColorValues {
-  primary: string
-  'primary-bg': string
-  'primary-100': string
-  'primary-border': string
-  white: string
-  black: string
-  'neutral-50': string
-  'neutral-60': string
-  'neutral-70': string
-  'neutral-80': string
-  'neutral-100': string
-  'neutral-200': string
-  'neutral-300': string
-  'neutral-400': string
-  'neutral-500': string
-  'neutral-600': string
-  'primary-hover': string
-  'border-color': string
-  'lime-green': string
-  'brown-100': string
-  'brown-200': string
-  'gray-50': string
-  'gray-100': string
-  'gray-150': string
-  'black-100': string
-  'gray-85': string
-  'col-nonbillh': string
-  'col-billh': string
-  'col-totalh': string
-  'gray-241': string
-  'gray-112': string
-  'gray-248': string
-  'blue-21': string
-  'blue-border': string
-  'gray-204': string
-  'gray-90': string
-  'gray-142': string
-  'gray-230': string
-  'gray-138': string
-  'dark-green': string
-  'gray-102': string
-  'light-turquoise': string
-  turquoise: string
-  'light-red': string
-  'dark-red': string
-  'notify-success': string
+  primary: string;
+  'primary-bg': string;
+  'primary-100': string;
+  'primary-border': string;
+  white: string;
+  black: string;
+  'neutral-50': string;
+  'neutral-60': string;
+  'neutral-70': string;
+  'neutral-80': string;
+  'neutral-100': string;
+  'neutral-200': string;
+  'neutral-300': string;
+  'neutral-400': string;
+  'neutral-500': string;
+  'neutral-600': string;
+  'primary-hover': string;
+  'border-color': string;
+  'lime-green': string;
+  'brown-100': string;
+  'brown-200': string;
+  'gray-50': string;
+  'gray-100': string;
+  'gray-150': string;
+  'black-100': string;
+  'gray-85': string;
+  'col-nonbillh': string;
+  'col-billh': string;
+  'col-totalh': string;
+  'gray-241': string;
+  'gray-112': string;
+  'gray-248': string;
+  'blue-21': string;
+  'blue-border': string;
+  'gray-204': string;
+  'gray-90': string;
+  'gray-142': string;
+  'gray-230': string;
+  'gray-138': string;
+  'dark-green': string;
+  'gray-102': string;
+  'light-turquoise': string;
+  turquoise: string;
+  'light-red': string;
+  'dark-red': string;
+  'notify-success': string;
   // ==== ==== ==== Stauts Colors ==== ==== ==== //
-  'dark-turquoise': string
-  'mustard-yellow': string
-  'sea-serpant': string
-  'royal-orange': string
-  'super-pink': string
-  'dark-lemon-lime': string
-  deer: string
-  'dark-tangerine': string
-  verdigris: string
-  tulip: string
-  emrald: string
-  'electric-blue': string
-  'blue-green': string
-  'picton-blue': string
-  'rose-pink': string
-  'pale-taupe': string
-  'brilliant-azure': string
-  'bright-lavender': string
-  peru: string
-  'pewter-blue': string
-  'pastel-red': string
-  'light-yellow': string
+  'dark-turquoise': string;
+  'mustard-yellow': string;
+  'sea-serpant': string;
+  'royal-orange': string;
+  'super-pink': string;
+  'dark-lemon-lime': string;
+  deer: string;
+  'dark-tangerine': string;
+  verdigris: string;
+  tulip: string;
+  emrald: string;
+  'electric-blue': string;
+  'blue-green': string;
+  'picton-blue': string;
+  'rose-pink': string;
+  'pale-taupe': string;
+  'brilliant-azure': string;
+  'bright-lavender': string;
+  peru: string;
+  'pewter-blue': string;
+  'pastel-red': string;
+  'light-yellow': string;
   // ==== ==== ==== ==== ==== ==== ==== ==== ==== //
-  'settings-sider': string
-  'gray-77': string
-  'gray-70': string
-  'gray-247': string
+  'settings-sider': string;
+  'gray-77': string;
+  'gray-70': string;
+  'gray-247': string;
 }
 
 export const themes: Record<'default' | 'dark', ColorValues> = {
@@ -151,7 +150,7 @@ export const themes: Record<'default' | 'dark', ColorValues> = {
     'settings-sider': '247,247,247',
     'gray-77': '77, 77, 79',
     'gray-70': '70, 70, 70',
-    'gray-247': '247, 247, 247'
+    'gray-247': '247, 247, 247',
   },
   dark: {
     primary: '255, 100, 0',
@@ -227,9 +226,9 @@ export const themes: Record<'default' | 'dark', ColorValues> = {
     'settings-sider': '247,247,247',
     'gray-77': '77, 77, 79',
     'gray-70': '70, 70, 70',
-    'gray-247': '247, 247, 247'
-  }
-}
+    'gray-247': '247, 247, 247',
+  },
+};
 
 export const breakpoints = {
   xs: '(max-width: 439px)',
@@ -237,39 +236,21 @@ export const breakpoints = {
   md: '(max-width: 767px)',
   lg: '(max-width: 991px)',
   xl: '(max-width: 1199px)',
-  xxl: '(max-width: 1599px)'
-}
+  xxl: '(max-width: 1599px)',
+};
 
-export const spacingValues = [
-  0, 1, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 25, 28, 32, 36, 40, 48, 60
-]
-export const widthValues = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+export const spacingValues = [0, 1, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 25, 28, 32, 36, 40, 48, 60];
+export const widthValues = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-export const fontSizes = [
-  6, 8, 10, 12, 14, 15, 15.5, 16, 18, 20, 24, 30, 36, 48, 60
-]
+export const fontSizes = [6, 8, 10, 12, 14, 15, 15.5, 16, 18, 20, 24, 30, 36, 48, 60];
 
-export const fontWeights = [300, 400, 500, 600, 700, 800, 900]
+export const fontWeights = [300, 400, 500, 600, 700, 800, 900];
 
-export const radiusValues = [0, 2, 4, 6, 8, 12, 16, 24, 1000]
+export const radiusValues = [0, 2, 4, 6, 8, 12, 16, 24, 1000];
 
-export const displayValues = [
-  'none',
-  'block',
-  'inline',
-  'inline-block',
-  'flex',
-  'grid'
-]
+export const displayValues = ['none', 'block', 'inline', 'inline-block', 'flex', 'grid'];
 
-export const alignItemsValues = [
-  'center',
-  'start',
-  'end',
-  'flex-start',
-  'flex-end',
-  'baseline'
-]
+export const alignItemsValues = ['center', 'start', 'end', 'flex-start', 'flex-end', 'baseline'];
 
 export const justifyContentValues = [
   'center',
@@ -279,50 +260,38 @@ export const justifyContentValues = [
   'flex-end',
   'space-between',
   'space-around',
-  'space-evenly'
-]
-export const flexDirectionValues = [
-  'column',
-  'column-reverse',
-  'row',
-  'row-reverse'
-]
+  'space-evenly',
+];
+export const flexDirectionValues = ['column', 'column-reverse', 'row', 'row-reverse'];
 
 export const rem = (pxValue: number | number[]): string => {
-  const ratio = 16
+  const ratio = 16;
   if (!pxValue) {
-    return ''
+    return '';
   }
-  const pxToConvert = Array.isArray(pxValue) ? pxValue[0] : pxValue
-  const parsedPxValue = parseInt((pxToConvert ?? 0).toString(), 10)
-  return `${parsedPxValue / ratio}rem`
-}
+  const pxToConvert = Array.isArray(pxValue) ? pxValue[0] : pxValue;
+  const parsedPxValue = parseInt((pxToConvert ?? 0).toString(), 10);
+  return `${parsedPxValue / ratio}rem`;
+};
 
-export const hexToRgb = (
-  hex: string
-): { r: number; g: number; b: number; a: number } => {
-  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])$/i
-  hex = hex.replace(
-    shorthandRegex,
-    (r: string, g: string, b: string, a: string) => {
-      return r + r + g + g + b + b + a + a
-    }
-  )
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
-    hex
-  )
+export const hexToRgb = (hex: string): { r: number; g: number; b: number; a: number } => {
+  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])([a-f\d])$/i;
+  hex = hex.replace(shorthandRegex, (r: string, g: string, b: string, a: string) => {
+    return r + r + g + g + b + b + a + a;
+  });
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (!result) {
-    throw new Error('Invalid hex color format')
+    throw new Error('Invalid hex color format');
   }
   return {
     r: parseInt(result[1] ?? '0', 16),
     g: parseInt(result[2] ?? '0', 16),
     b: parseInt(result[3] ?? '0', 16),
-    a: parseInt(result[4] ?? '0', 16)
-  }
-}
+    a: parseInt(result[4] ?? '0', 16),
+  };
+};
 
 export const rgba = (hex: string, alpha: number) => {
-  const rgbColor = hexToRgb(hex)
-  return `rgba(${rgbColor?.r}, ${rgbColor?.g}, ${rgbColor?.b}, ${alpha})`
-}
+  const rgbColor = hexToRgb(hex);
+  return `rgba(${rgbColor?.r}, ${rgbColor?.g}, ${rgbColor?.b}, ${alpha})`;
+};

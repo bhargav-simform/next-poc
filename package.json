@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "next-client/**/*.{js,jsx,ts,tsx}": [
+      "cd next-client && npx next lint --fix",
+      "cd next-client && npx next lint"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.5"
+  }
+}

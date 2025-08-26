@@ -1,4 +1,4 @@
-import { OverrideToken, AliasToken } from 'antd/es/theme/interface';
+import type { OverrideToken, AliasToken } from 'antd/es/theme/interface';
 
 export const getAntTheme: Partial<AliasToken> = {
   fontFamily: `'Puvi', 'Roboto',sans-serif`,

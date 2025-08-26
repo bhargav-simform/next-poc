@@ -1,11 +1,11 @@
 import { Drawer } from 'antd';
-import { IssueFormData } from '@/app/types/issue';
+import type { IssueFormData } from '@/app/types/issue';
 import IssueForm from '../forms/IssueForm';
 
 interface IssueDrawerProps {
   initialValues?: IssueFormData;
   open: boolean;
-  onSubmit: (values: IssueFormData) => void;
+  onSubmit: () => void;
   onClose: () => void;
   title: string;
   isLoading?: boolean;

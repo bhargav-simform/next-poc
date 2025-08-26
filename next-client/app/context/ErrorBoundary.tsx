@@ -1,14 +1,15 @@
 'use client';
 
-import React, { ReactNode } from 'react';
+import React from 'react';
+import type { ReactNode } from 'react';
 
-type ErrorBoundaryProps = {
+interface ErrorBoundaryProps {
   children: ReactNode;
-};
+}
 
-type ErrorBoundaryState = {
+interface ErrorBoundaryState {
   hasError: boolean;
-};
+}
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
@@ -16,16 +17,15 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+  static getDerivedStateFromError(): ErrorBoundaryState {
     return { hasError: true };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Log error to an error reporting service
-    /* eslint-disable no-console */
+
     console.error('Error:', error);
     console.error('Error Info:', errorInfo);
-    /* eslint-enable no-console */
   }
 
   render() {
