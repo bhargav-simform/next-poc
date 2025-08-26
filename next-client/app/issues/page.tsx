@@ -33,8 +33,6 @@ export default function IssuesPage() {
     handleUpdateIssue,
   } = useIssueManagement();
 
-  console.log('Rendering IssuesPage with issues:', editingIssue);
-
   const handleDeleteIssue = (id: string) => {
     ConfirmationModal({
       title: 'Delete Issue',

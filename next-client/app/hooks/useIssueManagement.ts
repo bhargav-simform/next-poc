@@ -46,7 +46,7 @@ export const useIssueManagement = () => {
       await remove(id);
       refetch();
       message.success('Issue deleted successfully');
-    } catch (error) {
+    } catch (_) {
       message.error('Failed to delete issue');
     }
   };
@@ -59,7 +59,7 @@ export const useIssueManagement = () => {
       await create(newIssue);
       setIsModalVisible(false);
       message.success('Issue created successfully');
-    } catch (error) {
+    } catch (_) {
       message.error('Failed to create issue');
     }
   };
@@ -79,7 +79,7 @@ export const useIssueManagement = () => {
         message.success('Issue updated successfully');
         setEditingIssue(null);
         setIsModalVisible(false);
-      } catch (error) {
+      } catch (_) {
         message.error('Failed to update issue');
       }
     }

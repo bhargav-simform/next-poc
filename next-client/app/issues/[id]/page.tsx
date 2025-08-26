@@ -1,11 +1,16 @@
 import IssueDetailsPage from '@/app/components/issues/IssueDetailsPage';
+import { after } from 'next/server';
 
 export default async function Page({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<React.ReactElement> {
-  const { id: issueId } = params;
+  after(() => {
+    console.log('IssuesPage mounted for testing');
+  });
+
+  const { id: issueId } = await params;
 
   return <IssueDetailsPage issueId={issueId} />;
 }
