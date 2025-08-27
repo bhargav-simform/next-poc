@@ -1,4 +1,4 @@
-import { ThemeConfig } from 'antd';
+import type { ThemeConfig } from 'antd';
 
 export const blue = '#007bff';
 export const white = '#fff';

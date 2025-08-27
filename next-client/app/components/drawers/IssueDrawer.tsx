@@ -5,7 +5,8 @@ import IssueForm from '../forms/IssueForm';
 interface IssueDrawerProps {
   initialValues?: IssueFormData;
   open: boolean;
-  onSubmit: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onSubmit: (formData: IssueFormData) => void;
   onClose: () => void;
   title: string;
   isLoading?: boolean;

@@ -71,11 +71,11 @@ export function IssueTable({
       render: (_: unknown, record: Issue) => (
         <Space size='middle'>
           <Link href={`/issues/${record.id}`}>
-            <Button type='text' icon={<EyeOutlined />} />
+            <Button type='link' icon={<EyeOutlined />} />
           </Link>
-          <Button type='text' icon={<EditOutlined />} onClick={() => onEdit(record)} />
+          <Button type='link' icon={<EditOutlined />} onClick={() => onEdit(record)} />
           <Button
-            type='text'
+            type='link'
             danger
             icon={<DeleteOutlined />}
             onClick={() => onDelete(record.id)}

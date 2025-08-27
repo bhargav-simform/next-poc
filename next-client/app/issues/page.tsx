@@ -77,7 +77,7 @@ export default function IssuesPage() {
               Delete Selected ({selectedRowKeys.length})
             </Button>
           )}
-          <Button icon={<ExportOutlined />} onClick={handleExportCSV}>
+          <Button variant='filled' icon={<ExportOutlined />} onClick={handleExportCSV}>
             Export CSV
           </Button>
           <Button
