@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Card, Descriptions, Tag, Space, Skeleton } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
@@ -10,6 +10,7 @@ import { Button } from '@/app/components/Button';
 import { issueService } from '@/app/services/issueService';
 import { useIssueManagement } from '@/app/hooks/useIssueManagement';
 import IssueDrawer from '../drawers/IssueDrawer';
+import { LoadingVariants } from '../LoadingFallback';
 
 const PageContainer = styled.div`
   max-width: 800px;
@@ -48,7 +49,7 @@ interface Props {
   issueId: string;
 }
 
-export default function IssueDetailsPage({ issueId }: Readonly<Props>) {
+function IssueDetailsContent({ issueId }: Readonly<Props>) {
   const router = useRouter();
 
   const { issue, loading } = issueService.useIssue(issueId);
@@ -179,5 +180,13 @@ export default function IssueDetailsPage({ issueId }: Readonly<Props>) {
         />
       )}
     </PageContainer>
+  );
+}
+
+export default function IssueDetailsPage({ issueId }: Readonly<Props>) {
+  return (
+    <Suspense fallback={<LoadingVariants.Component message="Loading issue details..." />}>
+      <IssueDetailsContent issueId={issueId} />
+    </Suspense>
   );
 }

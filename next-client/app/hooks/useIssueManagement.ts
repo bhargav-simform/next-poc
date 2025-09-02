@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useMemo } from 'react';
 import { message } from 'antd';
 import { cloneDeep } from 'lodash';
 import { issueService } from '../services/issueService';
@@ -6,7 +6,6 @@ import type { CreateIssueInput, Issue, UpdateIssueInput } from '../generated/gra
 import type { IssueFormData } from '../types/issue';
 
 export const useIssueManagement = () => {
-  const [filteredIssues, setFilteredIssues] = useState<Issue[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingIssue, setEditingIssue] = useState<Issue | null>(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
@@ -19,8 +18,9 @@ export const useIssueManagement = () => {
   const { update, loading: updateLoading } = issueService.useUpdateIssue();
   const { issues, loading: issuesLoading, refetch } = issueService.useIssues();
 
-  const filterIssues = () => {
-    let filtered = cloneDeep(issues);
+  // Derived value: no need for state
+  const filteredIssues = useMemo(() => {
+    let filtered = cloneDeep(issues ?? []);
 
     if (searchText) {
       filtered = filtered.filter(
@@ -38,8 +38,8 @@ export const useIssueManagement = () => {
       filtered = filtered.filter((issue) => severityFilters.includes(issue.priority));
     }
 
-    setFilteredIssues(filtered);
-  };
+    return filtered;
+  }, [issues, searchText, statusFilters, severityFilters]);
 
   const handleDelete = async (id: string) => {
     try {
@@ -71,10 +71,6 @@ export const useIssueManagement = () => {
       }
     }
   };
-
-  useEffect(() => {
-    filterIssues();
-  }, [searchText, statusFilters, severityFilters, issues]);
 
   const handleUpdateIssue = async (formData: IssueFormData) => {
     if (editingIssue) {
@@ -115,7 +111,6 @@ export const useIssueManagement = () => {
     setSearchText,
     setStatusFilters,
     setSeverityFilters,
-    filterIssues,
     handleDelete,
     handleCreateIssue,
     handleUpdateIssue,

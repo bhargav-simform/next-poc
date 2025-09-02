@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import IssueDetailsPage from '@/app/components/issues/IssueDetailsPage';
 import { after } from 'next/server';
+import { ServerLoadingVariants } from '@/app/components/ServerLoadingFallback';
+
+
 
 export default async function Page({
   params,
@@ -13,5 +16,9 @@ export default async function Page({
 
   const { id: issueId } = await params;
 
-  return <IssueDetailsPage issueId={issueId} />;
+  return (
+    <Suspense fallback={<ServerLoadingVariants.PageContent message="Loading issue details..." />}>
+      <IssueDetailsPage issueId={issueId} />
+    </Suspense>
+  );
 }

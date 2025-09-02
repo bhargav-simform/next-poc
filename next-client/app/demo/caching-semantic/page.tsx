@@ -1,6 +1,10 @@
 // export const dynamic = 'force-dynamic'
 
+import { Suspense } from 'react';
 import { fetchCached, fetchForceCached, fetchUncached } from '@/app/actions';
+import { ServerLoadingVariants } from '@/app/components/ServerLoadingFallback';
+
+
 
 export default async function Page() {
   const cached = await fetchCached();
@@ -8,11 +12,13 @@ export default async function Page() {
   const unCached = await fetchUncached();
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Next.js 15 Caching Demo</h2>
-      <pre>Revalidate 60s: {JSON.stringify(cached)}</pre>
-      <pre>Force Cache: {JSON.stringify(forceCached)}</pre>
-      <pre>No Store: {JSON.stringify(unCached)}</pre>
-    </div>
+    <Suspense fallback={<ServerLoadingVariants.PageContent message="Loading demo data..." />}>
+      <div style={{ padding: '2rem' }}>
+        <h2>Next.js 15 Caching Demo</h2>
+        <pre>Revalidate 60s: {JSON.stringify(cached)}</pre>
+        <pre>Force Cache: {JSON.stringify(forceCached)}</pre>
+        <pre>No Store: {JSON.stringify(unCached)}</pre>
+      </div>
+    </Suspense>
   );
 }

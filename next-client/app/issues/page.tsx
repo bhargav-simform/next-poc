@@ -1,8 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
+import { signOut } from 'next-auth/react';
 import { message } from 'antd';
-import { PlusOutlined, DeleteOutlined, ExportOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
+import { PlusOutlined, DeleteOutlined, ExportOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Container, Header, Title, ActionContainer } from '../components/issues/styles';
 import FilterBar from '../components/issues/FilterBar';
 import ConfirmationModal from '../components/issues/ConfirmationModal';
@@ -11,8 +13,12 @@ import IssueDrawer from '../components/drawers/IssueDrawer';
 import { useIssueManagement } from '../hooks/useIssueManagement';
 import { generateCSVContent } from '../utils/issueUtils';
 import { IssueTable } from '../components/issues/IssueTable';
+import { LoadingVariants } from '../components/LoadingFallback';
 
-export default function IssuesPage() {
+
+
+// Issues content component
+function IssuesContent() {
   const {
     filteredIssues,
     isModalVisible,
@@ -32,6 +38,9 @@ export default function IssuesPage() {
     handleCreateIssue,
     handleUpdateIssue,
   } = useIssueManagement();
+
+
+  const router = useRouter();
 
   const handleDeleteIssue = (id: string) => {
     ConfirmationModal({
@@ -67,6 +76,11 @@ export default function IssuesPage() {
     link.click();
   };
 
+  const handleLogout = async () => {
+    await signOut();
+    router.push('/auth/signin');
+  };
+
   return (
     <Container>
       <Header>
@@ -79,6 +93,9 @@ export default function IssuesPage() {
           )}
           <Button variant='filled' icon={<ExportOutlined />} onClick={handleExportCSV}>
             Export CSV
+          </Button>
+          <Button variant='filled' icon={<LogoutOutlined />} onClick={handleLogout}>
+            Logout
           </Button>
           <Button
             type='primary'
@@ -126,5 +143,13 @@ export default function IssuesPage() {
         />
       )}
     </Container>
+  );
+}
+
+export default function IssuesPage() {
+  return (
+    <Suspense fallback={<LoadingVariants.PageContent message="Loading issues..." />}>
+      <IssuesContent />
+    </Suspense>
   );
 }

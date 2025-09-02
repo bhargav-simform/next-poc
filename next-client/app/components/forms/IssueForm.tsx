@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { Form, Input, Select, DatePicker, InputNumber, Switch } from 'antd';
 import dayjs from 'dayjs';
@@ -13,8 +13,12 @@ import { StyledForm, ButtonContainer } from './styles';
 import { mockUsers } from '../../types/issue';
 import 'draft-js/dist/Draft.css';
 import { Button } from '../Button';
+import { LoadingVariants } from '../LoadingFallback';
 
-const Editor = dynamic(() => import('../Editor'), { ssr: false });
+const Editor = dynamic(() => import('../Editor'), { 
+  ssr: false,
+  loading: () => <LoadingVariants.Editor />
+});
 
 interface IssueFormProps {
   initialValues?: Issue | IssueFormData;
@@ -111,11 +115,13 @@ function IssueForm({
         </Form.Item>
 
         <Form.Item label='Description'>
-          <Editor
-            editorState={editorState}
-            handleEditorStateChange={setEditorState}
-            placeholder='Enter issue description...'
-          />
+          <Suspense fallback={<LoadingVariants.Editor />}>
+            <Editor
+              editorState={editorState}
+              handleEditorStateChange={setEditorState}
+              placeholder='Enter issue description...'
+            />
+          </Suspense>
         </Form.Item>
 
         <Form.Item

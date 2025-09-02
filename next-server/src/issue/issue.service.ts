@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { ConfigService } from '@nestjs/config';
 import { CreateIssueInput, UpdateIssueInput } from './dto/issue.input';
@@ -7,12 +7,30 @@ import { Issue } from './entities/issue.entity';
 @Injectable()
 export class IssueService {
   private supabase: SupabaseClient;
+  private readonly logger = new Logger(IssueService.name);
+
+  private readonly supabaseUrl = process.env.SUPABASE_URL!;
+  private readonly supabaseKey = process.env.SUPABASE_KEY
 
   constructor(private configService: ConfigService) {
-    this.supabase = createClient(
-      configService.get<string>('SUPABASE_URL'),
-      configService.get<string>('SUPABASE_KEY'),
-    );
+
+
+    console.log('supabaseUrl', this.supabaseUrl);
+
+    if (!this.supabaseUrl || !this.supabaseKey) {
+      throw new Error('Missing SUPABASE_URL or SUPABASE_KEY in environment variables');
+    }
+
+    // 🚨 Prevent accidental use of postgres:// connection string
+    if (this.supabaseUrl.startsWith('postgres://') || this.supabaseUrl.startsWith('postgresql://')) {
+      throw new Error(
+        `Invalid SUPABASE_URL: expected https://<project>.supabase.co, but got "${this.supabaseUrl}".\n` +
+        'Use SUPABASE_DB_URL for postgres:// connections.'
+      );
+    }
+
+    this.supabase = createClient(this.supabaseUrl, this.supabaseKey);
+    this.logger.log(`Supabase client initialized with URL: ${this.supabaseUrl}`);
   }
 
   async findAll(): Promise<Issue[]> {
@@ -59,7 +77,7 @@ export class IssueService {
       .single();
 
     if (error) throw error;
-    
+
     return {
       ...data,
       due_date: data.due_date ? new Date(data.due_date) : null,
@@ -80,7 +98,6 @@ export class IssueService {
       .single();
 
     if (error) throw error;
-
 
     return {
       ...data,
