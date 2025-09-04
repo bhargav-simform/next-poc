@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky install",
-    "codegen": "graphql-codegen --config codegen.yml",
+    "codegen": "dotenv -e .env -- graphql-codegen --config codegen.yml",
     "codegen:watch": "graphql-codegen --config codegen.yml --watch"
   },
   "lint-staged": {
@@ -64,6 +64,7 @@
     "@typescript-eslint/eslint-plugin": "^8.41.0",
     "@typescript-eslint/parser": "^8.41.0",
     "babel-plugin-styled-components": "^2.1.4",
+    "dotenv-cli": "^10.0.0",
     "eslint": "^9.33.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",

@@ -1,3 +1,10 @@
+export const baseUrl = process.env.NEXTAUTH_URL;
+
+export async function myAction(formData: FormData) {
+  const query = formData.get('query');
+  return { success: true, query };
+}
+
 export async function safeFetch(url: string, options?: RequestInit) {
   try {
     const res = await fetch(url, options);
@@ -17,13 +24,15 @@ export async function safeFetch(url: string, options?: RequestInit) {
 }
 
 export async function fetchCached() {
-  return safeFetch('hhttp://localhost:3000/api/random', { cache: 'force-cache' });
+  console.log(baseUrl, 'baseUrl');
+
+  return safeFetch(`${baseUrl}/api/random`, { cache: 'force-cache' });
 }
 
 export async function fetchForceCached() {
-  return safeFetch('hhttp://localhost:3000/api/random', { next: { revalidate: 60 } });
+  return safeFetch(`${baseUrl}/api/random`, { next: { revalidate: 60 } });
 }
 
 export async function fetchUncached() {
-  return safeFetch('hhttp://localhost:3000/api/random', { cache: 'no-store' });
+  return safeFetch(`${baseUrl}/api/random`, { cache: 'no-store' });
 }

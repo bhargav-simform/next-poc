@@ -1,7 +1,9 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 
+const backendURL = process.env.NEXT_PUBLIC_API_URL;
+
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3005/graphql',
+  uri: `${backendURL}/graphql`,
 });
 
 export const client = new ApolloClient({

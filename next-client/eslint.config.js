@@ -28,6 +28,7 @@ export default [
         fetch: 'readonly',
         Request: 'readonly',
         Response: 'readonly',
+        process: 'readonly',
         Headers: 'readonly',
         localStorage: 'readonly',
         sessionStorage: 'readonly',
