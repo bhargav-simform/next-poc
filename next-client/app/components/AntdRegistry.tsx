@@ -3,7 +3,7 @@
 import React from 'react';
 import { createCache, extractStyle, StyleProvider } from '@ant-design/cssinjs';
 import type Entity from '@ant-design/cssinjs/es/Cache';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, App } from 'antd';
 import { useServerInsertedHTML } from 'next/navigation';
 
 export default function AntdRegistry({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -22,7 +22,9 @@ export default function AntdRegistry({ children }: Readonly<{ children: React.Re
 
   return (
     <ConfigProvider>
-      <StyleProvider cache={cache}>{children}</StyleProvider>
+      <App>
+        <StyleProvider cache={cache}>{children}</StyleProvider>
+      </App>
     </ConfigProvider>
   );
 }

@@ -1,29 +1,29 @@
-'use server';
+export async function safeFetch(url: string, options?: RequestInit) {
+  try {
+    const res = await fetch(url, options);
 
-export const fetchCached = async () => {
-  const cached = await fetch('http://localhost:3000/api/random', {
-    next: { revalidate: 60 },
-  }).then((r) => r.json());
+    if (!res.ok) {
+      // Instead of parsing JSON blindly, return error info
+      return { error: `Request failed with ${res.status}`, body: await res.text() };
+    }
 
-  return cached;
-};
+    return await res.json();
+  } catch (e) {
+    if (e instanceof Error) {
+      return { error: 'Invalid JSON', body: e.message };
+    }
+    return { error: 'Invalid JSON', body: '' };
+  }
+}
 
-export const fetchForceCached = async () => {
-  const forceCached = await fetch('http://localhost:3000/api/random', {
-    cache: 'force-cache',
-  }).then((r) => r.json());
-  return forceCached;
-};
+export async function fetchCached() {
+  return safeFetch('hhttp://localhost:3000/api/random', { cache: 'force-cache' });
+}
 
-export const fetchUncached = async () => {
-  const uncached = await fetch('http://localhost:3000/api/random', {
-    cache: 'no-store',
-  }).then((r) => r.json());
+export async function fetchForceCached() {
+  return safeFetch('hhttp://localhost:3000/api/random', { next: { revalidate: 60 } });
+}
 
-  return uncached;
-};
-
-export async function myAction(formData: FormData) {
-  const query = formData.get('query');
-  return { success: true, query };
+export async function fetchUncached() {
+  return safeFetch('hhttp://localhost:3000/api/random', { cache: 'no-store' });
 }

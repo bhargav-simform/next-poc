@@ -1,32 +1,31 @@
-import type { SessionStrategy } from "next-auth";
-import NextAuth from "next-auth/next";
-import CredentialsProvider from "next-auth/providers/credentials";
+import type { SessionStrategy } from 'next-auth';
+import NextAuth from 'next-auth/next';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
-export const authOptions = {
+const authOptions = {
   session: {
-    strategy: "jwt" as SessionStrategy,
+    strategy: 'jwt' as SessionStrategy,
   },
   pages: {
-    signIn: "/auth/signin",
+    signIn: '/auth/signin',
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
         email: {},
         password: {},
       },
       async authorize(credentials) {
         const passwordCorrect =
-          credentials?.email === "admin@gmail.com" &&
-          credentials?.password === "Admin@123";
+          credentials?.email === 'admin@gmail.com' && credentials?.password === 'Admin@123';
 
         if (passwordCorrect) {
           return {
-            id: "1",
-            name: "Admin User",
+            id: '1',
+            name: 'Admin User',
             email: credentials.email,
-            role: "admin",
+            role: 'admin',
           };
         }
         return null;

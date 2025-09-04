@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { Form, Input, Button, message, Typography } from "antd";
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
-import styled from "styled-components";
-import { useState } from "react";
+import { signIn } from 'next-auth/react';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { Form, Input, Button, Typography } from 'antd';
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+import { useState } from 'react';
 
 const { Title, Text } = Typography;
 
@@ -70,21 +71,21 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
-      const response: any = await signIn("credentials", {
+      const response: any = await signIn('credentials', {
         email,
         password,
         redirect: false,
       });
-
       if (!response?.error) {
-        message.success("Login Successful");
-        router.push("/");
+        toast.success('Login Successfull!');
+        router.push('/');
         router.refresh();
       } else {
-        throw new Error(response.error);
+        console.log('called');
+        toast.error('Check your credentials');
       }
     } catch (error: any) {
-      message.error(error.message || "Login Failed");
+      toast.error(error?.message ?? 'Check your credentials');
     } finally {
       setLoading(false);
     }
@@ -95,57 +96,50 @@ export default function LoginForm() {
       <FormContainer>
         <FormWrapper>
           <HeaderSection>
-            <Title level={2} style={{ margin: 0, color: "var(--neutral-500)" }}>
+            <Title level={2} style={{ margin: 0, color: 'var(--neutral-500)' }}>
               Welcome Back
             </Title>
-            <Text style={{ color: "var(--neutral-300)" }}>
-              Sign in to your account to continue
-            </Text>
+            <Text style={{ color: 'var(--neutral-300)' }}>Sign in to your account to continue</Text>
           </HeaderSection>
 
-          <Form<LoginFormValues>  
+          <Form<LoginFormValues>
             form={form}
-            name="login"
+            name='login'
             onFinish={onFinish}
-            layout="vertical"
-            size="large"
+            layout='vertical'
+            size='large'
           >
             <Form.Item
-              label="Email Address"
-              name="email"
+              label='Email Address'
+              name='email'
               rules={[
-                { required: true, message: "Please enter your email!" },
-                { type: "email", message: "Invalid email address!" },
+                { required: true, message: 'Please enter your email!' },
+                { type: 'email', message: 'Invalid email address!' },
               ]}
             >
               <Input
-                placeholder="Enter your email address"
-                prefix={<MailOutlined style={{ color: "var(--neutral-300)" }} />}
+                placeholder='Enter your email address'
+                prefix={<MailOutlined style={{ color: 'var(--neutral-300)' }} />}
               />
             </Form.Item>
 
             <Form.Item
-              label="Password"
-              name="password"
+              label='Password'
+              name='password'
               rules={[
-                { required: true, message: "Please enter your password!" },
-                { min: 6, message: "Password must be at least 6 characters." },
+                { required: true, message: 'Please enter your password!' },
+                { min: 6, message: 'Password must be at least 6 characters.' },
               ]}
             >
               <Input.Password
-                placeholder="Enter your password"
-                prefix={<LockOutlined style={{ color: "var(--neutral-300)" }} />}
+                placeholder='Enter your password'
+                prefix={<LockOutlined style={{ color: 'var(--neutral-300)' }} />}
               />
             </Form.Item>
 
             <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                loading={loading}
-                block
-              >
-                {loading ? "Signing In..." : "Sign In"}
+              <Button type='primary' htmlType='submit' loading={loading} block>
+                {loading ? 'Signing In...' : 'Sign In'}
               </Button>
             </Form.Item>
           </Form>
